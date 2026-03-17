@@ -3,7 +3,7 @@ export const images = {
   imgBanane: load("static/pictures/banane.png"),
   imgConcombre: load("static/pictures/concombre.png"),
   imgHeart: load("static/pictures/heart.png"),
-  imgDog: load("static/pictures/fayou.jpeg"),
+  imgDog: load("static/pictures/Fayou.jpeg"),
 };
 
 
