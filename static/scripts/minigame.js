@@ -18,8 +18,9 @@ canvas.width = 350;
 canvas.height = 500;
 
 export function startMiniGame() {
-  winGame();
-  return;
+  // winGame();
+  // return;
+
   canvas.style.display = "block";
   sceneImage.style.display = "none";
   choicesEl.innerHTML = "";

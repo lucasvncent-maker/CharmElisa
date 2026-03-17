@@ -137,7 +137,7 @@ export function step5() {
 
 function step6() {
   showScene(
-    "Oh non, Fayou est en danger, il faut le sauver !!",
+    "Oh non, quelqu'un a renversé du chocolat de partout, il faut protéger Fayou !!",
     "static/pictures/fayou.jpeg",
     mission2
   );
@@ -146,7 +146,7 @@ function step6() {
 
 function mission2() {
   showScene(
-    "Vite !! Sauve le chien !!",
+    "Vite !! Sauve-le !!",
     "static/pictures/fayou.jpeg",
     startFlappyGame
   );

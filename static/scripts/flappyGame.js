@@ -1,8 +1,9 @@
 import { showScene } from "./dialogue.js";
-import { images } from "./assets.js";
+import { images2 } from "./assets.js";
 import { shake } from "./effects.js";
 
 let bird, pipes, running, score;
+let windParticles = [];
 
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
@@ -21,13 +22,21 @@ export function startFlappyGame() {
   document.getElementById("choices").innerHTML = "";
   document.getElementById("dialogue").innerText = "";
 
+  windParticles = Array.from({ length: 40 }, () => ({
+  x: Math.random() * canvas.width,
+  y: Math.random() * canvas.height,
+  speed: Math.random() * 2 + 1,
+  size: Math.random() * 2 + 1,
+  opacity: Math.random() * 0.5 + 0.2
+  }));
+
   bird = {
     x: 80,
     y: 200,
     velocity: 0,
-    gravity: 0.5,
-    lift: -8,
-    size: 40
+    gravity: 0.4,
+    lift: -6,
+    size: 60
   };
 
   pipes = [];
@@ -38,27 +47,41 @@ export function startFlappyGame() {
 }
 
 function spawnPipe() {
-  const gap = 120;
+  const gap = 200;
   const topHeight = Math.random() * 200 + 50;
 
   pipes.push({
     x: canvas.width,
-    width: 50,
+    width: 200,
     top: topHeight,
     bottom: topHeight + gap,
     passed: false
   });
 }
 
+function get_max_x(pipes)  {
+  let max_x = 0;
+  for (let pipe of pipes) {
+    if (pipe.x > max_x) {
+      max_x = pipe.x;
+    }
+  }
+
+  return max_x;
+}
+
+
 function update() {
   bird.velocity += bird.gravity;
   bird.y += bird.velocity;
 
   // spawn pipes
-  if (Math.random() < 0.02) spawnPipe();
-
+  if (get_max_x(pipes) < canvas.width*0.2) {
+    if (Math.random() < 0.02) spawnPipe();
+  }
+  
   pipes.forEach((pipe, index) => {
-    pipe.x -= 3;
+    pipe.x -= 5;
 
     // collision
     if (
@@ -86,27 +109,83 @@ function update() {
     loseGame();
   }
 
-  if (score >= 10) winGame();
+  // vent
+  windParticles.forEach(p => {
+  p.x -= p.speed;
+
+  if (p.x < 0) {
+    p.x = canvas.width;
+    p.y = Math.random() * canvas.height;
+  }
+});
+
+  if (score >= 20) winGame();
 }
 
 function draw() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-  // background ciel
-  ctx.fillStyle = "#87CEEB";
+  // 🌅 background (EN PREMIER)
+  const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
+  gradient.addColorStop(0, "#1e3c72");
+  gradient.addColorStop(1, "#2a5298");
+
+  ctx.fillStyle = gradient;
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-  // pipes
-  ctx.fillStyle = "#4CAF50";
-  pipes.forEach(pipe => {
-    ctx.fillRect(pipe.x, 0, pipe.width, pipe.top);
-    ctx.fillRect(pipe.x, pipe.bottom, pipe.width, canvas.height);
+  // 🌪️ effet traînée (léger)
+  ctx.fillStyle = "rgba(0, 0, 0, 0.1)";
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  // 🌬️ particules
+  windParticles.forEach(p => {
+    ctx.globalAlpha = p.opacity;
+    ctx.fillStyle = "white";
+
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+    ctx.fill();
   });
 
-  // chien 🐶
-  ctx.drawImage(images.imgDog, bird.x, bird.y, bird.size, bird.size);
+  ctx.globalAlpha = 1;
 
-  // score stylé ✨
+  // 🍫 pipes
+  pipes.forEach(pipe => {
+
+    // 🔼 haut
+    ctx.save();
+    ctx.scale(1, -1);
+
+    ctx.drawImage(
+      images2.imgChocolate,
+      pipe.x,
+      -pipe.top,
+      pipe.width,
+      pipe.top + 20
+    );
+
+    ctx.restore();
+
+    // 🔽 bas
+    ctx.drawImage(
+      images2.imgChocolate,
+      pipe.x,
+      pipe.bottom,
+      pipe.width,
+      canvas.height - pipe.bottom + 20
+    );
+  });
+
+  // 🐶 chien
+  ctx.drawImage(
+    images2.imgDog,
+    bird.x,
+    bird.y,
+    bird.size,
+    bird.size
+  );
+
+  // ✨ score
   ctx.fillStyle = "gold";
   ctx.font = "bold 28px Arial";
   ctx.fillText(score, canvas.width / 2 - 10, 50);
@@ -128,7 +207,7 @@ function loseGame() {
   document.getElementById("sceneImage").style.display = "block";
 
   showScene(
-    "NOOOOON 😭 Le chien est tombé !!",
+    "NOOOOON 😭 Fayou a mangé du chocolat !! C'est toxique pour les chiens...",
     "static/pictures/tonton.png",
     startFlappyGame
   );
@@ -141,7 +220,7 @@ function winGame() {
   document.getElementById("sceneImage").style.display = "block";
 
   showScene(
-    "INCROYABLE 😍 Tu as sauvé le chien !!",
+    "INCROYABLE 😍 Tu as sauvé Fayou !!",
     "static/pictures/tonton.png",
     () => alert("Suite bientôt 😄")
   );
