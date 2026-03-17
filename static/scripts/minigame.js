@@ -92,7 +92,8 @@ function update() {
     if (
       obj.y + obj.size > basket.y &&
       obj.x < basket.x + basket.width &&
-      obj.x + obj.size > basket.x
+      obj.x + obj.size > basket.x &&
+      obj.y + 10 < basket.y + basket.height
     ) {
       if (obj.type === "saucisson") {
         score++;
