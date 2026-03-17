@@ -4,6 +4,9 @@ body {
   background: black;
   color: white;
   text-align: center;
+  overflow: hidden;
+  touch-action: none; 
+  -webkit-overflow-scrolling: none;
 }
 
 #game {
@@ -26,6 +29,10 @@ body {
   text-align: center;
   font-size: 1.1rem;
   margin-bottom: 10px;
+
+  white-space: pre-wrap;
+  word-break: keep-all;
+  overflow-wrap: break-word;
 }
 
 #choices button {
