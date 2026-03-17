@@ -1,5 +1,6 @@
 import { startMiniGame } from "./minigame.js";
 import { shake } from "./effects.js";
+import { startFlappyGame } from "./flappyGame.js";
 
 
 let isTyping = false;
@@ -72,20 +73,6 @@ export function startStory() {
   showScene("...", "images/bg.jpg", step1);
 }
 
-function init() {
-
-  const dialogueEl = document.getElementById("dialogue");
-  const choicesEl = document.getElementById("choices");
-  const sceneImage = document.getElementById("sceneImage");
-  const canvas = document.getElementById("gameCanvas");
-  const ctx = canvas.getContext("2d");
-
-  canvas.width = 350;
-  canvas.height = 500;
-
-  
-}
-
 function step1() {
   showScene("Réveille-toi !!!", "images/bg.jpg", step2);
 
@@ -140,5 +127,29 @@ function mission1() {
     "images/tonton.png",
     startMiniGame
   );
+  step5();
 }
 
+function step5() {
+  showScene(
+    "OUAF OUAF !!",
+    "images/fayou.png"
+  );
+  step6();
+}
+
+function step6() {
+  showScene(
+    "Oh non, Fayou est en danger, il faut le sauver !!",
+    "images/fayouDANGER.png"
+  );
+  mission2();
+}
+
+export function mission2() {
+  showScene(
+    "Vite !! Sauve le chien !!",
+    "images/dog.png",
+    startFlappyGame
+  );
+}

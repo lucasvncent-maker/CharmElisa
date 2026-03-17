@@ -1,6 +1,7 @@
 import { shake } from "./effects.js";
 import { showScene } from "./dialogue.js";
 import { images } from "./assets.js";
+import { mission2 } from "./dialogue.js";
 
 let basket, objects, score, lives;
 let running = false;
@@ -16,6 +17,8 @@ canvas.width = 350;
 canvas.height = 500;
 
 export function startMiniGame() {
+  winGame();
+  return;
   canvas.style.display = "block";
   sceneImage.style.display = "none";
   choicesEl.innerHTML = "";
@@ -185,7 +188,6 @@ function winGame() {
 
   showScene(
     "Bien joué beau gosse 😏 Tu as assez de saucissons !",
-    "images/tonton.png",
-    () => alert("Suite bientôt 😄")
+    "images/tonton.png"
   );
 }
