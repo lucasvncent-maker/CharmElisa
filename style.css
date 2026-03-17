@@ -25,14 +25,13 @@ body {
 #dialogue {
   width: 95vw;             /* texte contenu dans la largeur écran */
   max-width: 400px;        /* limite pour grand écran */
-  word-wrap: break-word;   /* coupe les mots si nécessaire */
   text-align: center;
   font-size: 1.1rem;
   margin-bottom: 10px;
 
   white-space: pre-wrap;
-  word-break: keep-all;
-  overflow-wrap: break-word;
+  word-break: normal;
+  overflow-wrap: normal;
 }
 
 #choices button {
