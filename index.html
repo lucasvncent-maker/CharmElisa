@@ -2,19 +2,30 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <title>Joyeux Anniversaire ❤️</title>
+  <title>Aventure ❤️</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<h1>Attrape les cœurs 💖</h1>
-<p id="score">Score : 0</p>
+<div id="game">
 
-<canvas id="gameCanvas"></canvas>
+  <!-- SCENE -->
+  <div id="scene">
+    <img id="sceneImage" src="" alt="">
+  </div>
 
-<p id="message"></p>
+  <!-- TEXTE -->
+  <div id="dialogue"></div>
 
-<script src="script.js"></script>
+  <!-- CHOIX -->
+  <div id="choices"></div>
+
+  <!-- CANVAS MINI JEU -->
+  <canvas id="gameCanvas"></canvas>
+
+</div>
+
+<script type="module" src="js/main.js"></script>
 </body>
 </html>
