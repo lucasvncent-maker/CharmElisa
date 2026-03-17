@@ -1,16 +1,11 @@
+import { miniGameAssets } from "./asset-loader.js";
 import { shake } from "./effects.js";
-import { showScene } from "./dialogue.js";
-import { images } from "./assets.js";
-import { step5 } from "./dialogue.js";
-
+import { showScene, step5 } from "./story-dialogue.js";
 
 let basket, objects, score, lives;
 let running = false;
 let particles = [];
 
-const dialogueEl = document.getElementById("dialogue");
-const choicesEl = document.getElementById("choices");
-const sceneImage = document.getElementById("sceneImage");
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
 
@@ -18,19 +13,16 @@ canvas.width = 350;
 canvas.height = 500;
 
 export function startMiniGame() {
-  // winGame();
-  // return;
-
   canvas.style.display = "block";
-  sceneImage.style.display = "none";
-  choicesEl.innerHTML = "";
-  dialogueEl.innerText = "";
+  document.getElementById("sceneImage").style.display = "none";
+  document.getElementById("choices").innerHTML = "";
+  document.getElementById("dialogue").innerText = "";
 
   basket = {
     x: canvas.width / 2 - 40,
     y: canvas.height - 60,
     width: 80,
-    height: 20
+    height: 20,
   };
 
   objects = [];
@@ -41,7 +33,6 @@ export function startMiniGame() {
   gameLoop();
 }
 
-// contrôles
 canvas.addEventListener("touchmove", (e) => {
   const rect = canvas.getBoundingClientRect();
   basket.x = e.touches[0].clientX - rect.left - basket.width / 2;
@@ -54,30 +45,34 @@ canvas.addEventListener("mousemove", (e) => {
 
 function spawnObject() {
   const rand = Math.random();
-
   let type;
-  if (rand < 0.5) type = "saucisson";
-  else if (rand < 0.75) type = "banane";
-  else type = "concombre";
+
+  if (rand < 0.5) {
+    type = "sausage";
+  } else if (rand < 0.75) {
+    type = "banana";
+  } else {
+    type = "cucumber";
+  }
 
   objects.push({
     x: Math.random() * (canvas.width - 40),
     y: 0,
     size: 40,
     speed: 2 + Math.random() * 2,
-    type: type
+    type: type,
   });
 }
 
 function update() {
   if (Math.random() < 0.1) {
-  particles.push({
-    x: Math.random() * canvas.width,
-    y: canvas.height,
-    size: Math.random() * 3,
-    speed: 1 + Math.random()
-  });
-}
+    particles.push({
+      x: Math.random() * canvas.width,
+      y: canvas.height,
+      size: Math.random() * 3,
+      speed: 1 + Math.random(),
+    });
+  }
 
   particles.forEach((p, i) => {
     p.y -= p.speed;
@@ -95,7 +90,7 @@ function update() {
       obj.x + obj.size > basket.x &&
       obj.y + 10 < basket.y + basket.height
     ) {
-      if (obj.type === "saucisson") {
+      if (obj.type === "sausage") {
         score++;
       } else {
         lives--;
@@ -115,84 +110,70 @@ function update() {
 
 function draw() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  // background dégradé
-  let gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
+
+  const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
   gradient.addColorStop(0, "#ffd1dc");
   gradient.addColorStop(1, "#ffe6f0");
   ctx.fillStyle = gradient;
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-  ctx.font = "bold 18px Arial";
-
-  // panier
   ctx.fillStyle = "#ff4d6d";
   ctx.fillRect(basket.x, basket.y, basket.width, basket.height);
 
-  // objets
-  objects.forEach(obj => {
+  objects.forEach((obj) => {
     let img;
-    if (obj.type === "saucisson") img = images.imgSaucisson;
-    if (obj.type === "banane") img = images.imgBanane;
-    if (obj.type === "concombre") img = images.imgConcombre;
+    if (obj.type === "sausage") img = miniGameAssets.sausage;
+    else if (obj.type === "banana") img = miniGameAssets.banana;
+    else if (obj.type === "cucumber") img = miniGameAssets.cucumber;
 
     ctx.drawImage(img, obj.x, obj.y, obj.size, obj.size);
   });
 
-  // particules
-  particles.forEach(p => {
+  particles.forEach((p) => {
     ctx.beginPath();
     ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
     ctx.fill();
-    });
-  
-  // score
-  ctx.font = "bold 24px Verdana";   // plus grande et lisible
+  });
+
+  ctx.font = "bold 24px Verdana";
   ctx.textAlign = "left";
   ctx.textBaseline = "top";
   ctx.strokeStyle = "rgba(0,0,0,0.5)";
-  ctx.strokeText("Score : " + score, 10, 50);
+  ctx.strokeText("Score: " + score, 10, 50);
 
-
-  // ❤️ vies animées
   for (let i = 0; i < lives; i++) {
-    let size = 25 + Math.sin(Date.now() / 200) * 3;
-    ctx.drawImage(images.imgHeart, 250 + i * 30, 5, size, size);
+    const size = 25 + Math.sin(Date.now() / 200) * 3;
+    ctx.drawImage(miniGameAssets.heart, 250 + i * 30, 5, size, size);
   }
 }
 
 function gameLoop() {
   if (!running) return;
-
   update();
   draw();
   requestAnimationFrame(gameLoop);
 }
 
-// =======================
-// 🏆 RESULTATS
-// =======================
-
 function loseGame() {
   running = false;
   canvas.style.display = "none";
-  sceneImage.style.display = "block";
+  document.getElementById("sceneImage").style.display = "block";
 
   showScene(
     "Ecoute mon p'tit gars, concentre-toi si tu veux conquérir cette immense frappe qu'est Elisa !",
-    "static/pictures/tonton.png",
-    startMiniGame
+    "src/assets/images/uncle-noel.png",
+    startMiniGame,
   );
 }
 
 function winGame() {
   running = false;
   canvas.style.display = "none";
-  sceneImage.style.display = "block";
+  document.getElementById("sceneImage").style.display = "block";
 
   showScene(
-    "Bien joué beau gosse 😏 Tu as assez de saucissons !",
-    "static/pictures/tonton.png",
-    step5
+    "Bien joué beau gosse ! Tu as assez de saucissons !",
+    "src/assets/images/uncle-noel.png",
+    step5,
   );
-
 }

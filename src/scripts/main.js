@@ -1,4 +1,4 @@
-import { startStory } from "./dialogue.js";
+import { startStory } from "./story-dialogue.js";
 
 window.addEventListener("DOMContentLoaded", () => {
   startStory();
