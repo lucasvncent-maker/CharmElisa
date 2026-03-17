@@ -47,6 +47,7 @@ function spawnObject() {
   const rand = Math.random();
   let type;
 
+  // Distribution: 50% sausage (good), 25% banana (bad), 25% cucumber (bad)
   if (rand < 0.5) {
     type = "sausage";
   } else if (rand < 0.75) {
@@ -84,6 +85,7 @@ function update() {
   objects.forEach((obj, index) => {
     obj.y += obj.speed;
 
+    // AABB collision detection: check if object is caught by basket
     if (
       obj.y + obj.size > basket.y &&
       obj.x < basket.x + basket.width &&
@@ -142,6 +144,7 @@ function draw() {
   ctx.strokeText("Score: " + score, 10, 50);
 
   for (let i = 0; i < lives; i++) {
+    // Animate heart size using sine wave for pulsing effect
     const size = 25 + Math.sin(Date.now() / 200) * 3;
     ctx.drawImage(miniGameAssets.heart, 250 + i * 30, 5, size, size);
   }

@@ -47,7 +47,7 @@ export function startFlappyGame() {
 }
 
 function spawnPipe() {
-  const gap = 200;
+  const gap = 200; // Space between top and bottom pipe
   const topHeight = Math.random() * 200 + 50;
 
   pipes.push({
@@ -80,6 +80,7 @@ function update() {
   pipes.forEach((pipe, index) => {
     pipe.x -= 5;
 
+    // AABB collision detection: check if bird overlaps pipe boundaries
     if (
       bird.x < pipe.x + pipe.width &&
       bird.x + bird.size > pipe.x &&
@@ -89,6 +90,7 @@ function update() {
     }
 
     if (!pipe.passed && pipe.x + pipe.width < bird.x) {
+      // Track score only once when bird successfully passes a pipe
       pipe.passed = true;
       score++;
     }
@@ -104,6 +106,7 @@ function update() {
 
   windParticles.forEach((p) => {
     p.x -= p.speed;
+    // Wrap particle back to right side for infinite scrolling effect
     if (p.x < 0) {
       p.x = canvas.width;
       p.y = Math.random() * canvas.height;
@@ -136,6 +139,7 @@ function draw() {
   ctx.globalAlpha = 1;
 
   pipes.forEach((pipe) => {
+    // Draw top pipe by vertically flipping the chocolate image
     ctx.save();
     ctx.scale(1, -1);
     ctx.drawImage(

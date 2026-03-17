@@ -51,6 +51,7 @@ function typeText(text, callback) {
 
   function typing() {
     if (i < text.length) {
+      // Character by character reveal with slight delay for typing effect
       dialogueEl.innerHTML += text[i] === " " ? " " : text[i];
       i++;
       setTimeout(typing, 25);
