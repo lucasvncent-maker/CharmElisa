@@ -107,11 +107,11 @@ function showScene(text, image, next = null, choices = []) {
 // =======================
 
 function startGame() {
-  showScene("...", "images/black.jpg", step1);
+  showScene("...", "images/bg.jpg", step1);
 }
 
 function step1() {
-  showScene("Réveille-toi !!!", "images/black.jpg", step2);
+  showScene("Réveille-toi !!!", "images/bg.jpg", step2);
 
   setTimeout(() => {
     shake(10, 400);
@@ -119,7 +119,7 @@ function step1() {
 }
 
 function step2() {
-  showScene("Flemmard, arrête de dormir !!!", "images/black.jpg", step3);
+  showScene("Flemmard, arrête de dormir !!!", "images/bg.jpg", step3);
 }
 
 function step3() {

@@ -1,7 +1,7 @@
 export const images = {
-  imgSaucisson: load("images/saucisson.jpg"),
+  imgSaucisson: load("images/saucisson.png"),
   imgBanane: load("images/banane.png"),
-  imgConcombre: load("images/concombre.jpg"),
+  imgConcombre: load("images/concombre.png"),
   imgHeart: load("images/heart.png")
 };
 

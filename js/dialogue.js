@@ -56,7 +56,7 @@ function typeText(text, callback) {
 
   function typing() {
     if (i < text.length) {
-      dialogueEl.innerHTML += text[i] === " " ? "&nbsp;" : text[i];
+      dialogueEl.innerHTML += text[i] === " " ? " " : text[i];
       i++;
       setTimeout(typing, 25);
     } else {
@@ -69,7 +69,7 @@ function typeText(text, callback) {
 }
 
 export function startStory() {
-  showScene("...", "images/black.jpg", step1);
+  showScene("...", "images/bg.jpg", step1);
 }
 
 function init() {
@@ -87,7 +87,7 @@ function init() {
 }
 
 function step1() {
-  showScene("Réveille-toi !!!", "images/black.jpg", step2);
+  showScene("Réveille-toi !!!", "images/bg.jpg", step2);
 
   setTimeout(() => {
     shake(10, 400);
@@ -95,7 +95,7 @@ function step1() {
 }
 
 function step2() {
-  showScene("Flemmard, arrête de dormir !!!", "images/black.jpg", step3);
+  showScene("Flemmard, arrête de dormir !!!", "images/bg.jpg", step3);
 }
 
 function step3() {
