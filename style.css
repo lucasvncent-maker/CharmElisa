@@ -14,15 +14,18 @@ body {
 #scene img {
   display: block;
   width: auto;       /* conserve les proportions */
-  height: 25vh;      /* 25% de la hauteur de l'écran */
+  height: 45vh;      /* 25% de la hauteur de l'écran */
   margin: 0 auto;    /* centré horizontalement */
   object-fit: contain; /* ajuste bien l'image sans la déformer */
 }
 
 #dialogue {
-  padding: 20px;
-  min-height: 120px;
-  font-size: 18px;
+  width: 95vw;             /* texte contenu dans la largeur écran */
+  max-width: 400px;        /* limite pour grand écran */
+  word-wrap: break-word;   /* coupe les mots si nécessaire */
+  text-align: center;
+  font-size: 1.1rem;
+  margin-bottom: 10px;
 }
 
 #choices button {
