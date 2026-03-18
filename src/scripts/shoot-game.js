@@ -46,8 +46,8 @@ function updateCursor(clientX, clientY) {
     canvasY >= 0 &&
     canvasY <= rect.height
   ) {
-    cursor.x = canvasX * scaleX;
-    cursor.y = canvasY * scaleY;
+    cursor.x = Math.round(canvasX * scaleX);
+    cursor.y = Math.round(canvasY * scaleY);
   }
 }
 
@@ -64,12 +64,10 @@ document.addEventListener("touchmove", (e) => {
   updateCursor(touch.clientX, touch.clientY);
 });
 
-document.addEventListener("touchstart", (e) => {
-  isTouchDevice = true;
-
+document.addEventListener("touchend", (e) => {
   if (!running) return;
 
-  const touch = e.touches[0];
+  const touch = e.changedTouches[0];
   updateCursor(touch.clientX, touch.clientY);
 
   shot();
