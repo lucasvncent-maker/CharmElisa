@@ -141,7 +141,7 @@ function draw() {
   ctx.textAlign = "left";
   ctx.textBaseline = "top";
   ctx.strokeStyle = "rgba(0,0,0,0.5)";
-  ctx.strokeText("Score: " + score, 10, 50);
+  ctx.strokeText("Score: " + score, 20, 20);
 
   for (let i = 0; i < lives; i++) {
     // Animate heart size using sine wave for pulsing effect

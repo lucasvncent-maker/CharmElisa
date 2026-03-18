@@ -48,7 +48,7 @@ body {
 }
 
 #dialogue {
-  width: 100%;
+  width: 80%;
   font-size: 1.1rem;
   margin-bottom: 10px;
   word-wrap: break-word;
@@ -73,7 +73,12 @@ body {
 
 canvas {
   display: none;
-  height: 45vh;
-  background: white;
-  border-radius: 10px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: auto;
+  max-width: 100%;
+  height: 55dvh;
+  border-radius: 1dvw;
 }
