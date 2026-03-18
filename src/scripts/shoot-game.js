@@ -26,17 +26,19 @@ const horse = {
 
 let cursor = { x: 0, y: 0, size: 30};
 
-// Track mouse/touch position globally with proper scaling
-document.addEventListener("mousemove", (e) => {
-  if (!running) return;
+document.addEventListener("touchmove", (e) => {
+  e.preventDefault();
+}, { passive: false });
+
+function updateCursor(clientX, clientY) {
   const rect = canvas.getBoundingClientRect();
   if (rect.width === 0) return;
 
   const scaleX = canvas.width / rect.width;
   const scaleY = canvas.height / rect.height;
 
-  const canvasX = e.clientX - rect.left;
-  const canvasY = e.clientY - rect.top;
+  const canvasX = clientX - rect.left;
+  const canvasY = clientY - rect.top;
 
   if (
     canvasX >= 0 &&
@@ -47,10 +49,20 @@ document.addEventListener("mousemove", (e) => {
     cursor.x = canvasX * scaleX;
     cursor.y = canvasY * scaleY;
   }
+}
+
+// Track mouse/touch position globally with proper scaling
+document.addEventListener("mousemove", (e) => {
+  if (!running) return;
+  updateCursor(e.clientX, e.clientY);
 });
 
 document.addEventListener("touchmove", (e) => {
   if (!running) return;
+
+  const touch = e.touches[0];
+  updateCursor(touch.clientX, touch.clientY);
+
   shot();
 });
 
