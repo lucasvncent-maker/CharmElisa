@@ -23,8 +23,9 @@ const horse = {
   size: 20,
 };
 
-let isTouchDevice = false;
 let cursor = { x: 0, y: 0, size: 30};
+let baseHumanSpeed = 0.5;
+const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
 
 document.addEventListener("touchmove", (e) => {
   e.preventDefault();
@@ -110,7 +111,7 @@ function shot() {
       score = 0;
     }
   }
-  
+
   for (let i = 0; i < 12; i++) {
     explosionParticles.push({
       x: cursor.x,
@@ -146,7 +147,7 @@ function spawnEnemy() {
     x: getSpawnLocation(),
     y: 0,
     size: 18,
-    speed: Math.random() * 1.5 + 1.3,
+    speed: Math.random() * 2.5 + baseHumanSpeed,
     img: enemyImages[Math.floor(Math.random() * enemyImages.length)],
   });
 }
@@ -169,7 +170,7 @@ function spawnFriend() {
     x: getSpawnLocation(),
     y: 0,
     size: 18,
-    speed: Math.random() * 1 + 0.5,
+    speed: Math.random() * 1 + baseHumanSpeed,
     img: friendsImages[Math.floor(Math.random() * friendsImages.length)],
   });
 }
@@ -414,6 +415,10 @@ export function startShootGame() {
   document.getElementById("choices").innerHTML = "";
   document.getElementById("dialogue").innerText = "";
 
+
+  if (isTouchDevice) {
+    baseHumanSpeed = 1.5;
+  }
   // Reset game state
   enemies = [];
   friends = [];
