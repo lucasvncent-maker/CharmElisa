@@ -176,13 +176,19 @@ function draw() {
     );
   });
 
-  // Draw dog or fallback to circle if image not loaded
-  if (flappyGameAssets.dog.complete) {
+  // Draw dog with fallback
+  if (flappyGameAssets.dog.complete && flappyGameAssets.dog.naturalHeight > 0) {
     ctx.drawImage(flappyGameAssets.dog, bird.x, bird.y, bird.size, bird.size);
   } else {
-    ctx.fillStyle = "#FFD700";
+    // Fallback: Draw a simple dog-like shape
+    ctx.fillStyle = "#8B4513";
+    ctx.fillRect(bird.x + 5, bird.y + 10, bird.size - 10, bird.size - 20);
+    ctx.fillStyle = "#000";
     ctx.beginPath();
-    ctx.arc(bird.x + bird.size / 2, bird.y + bird.size / 2, bird.size / 2, 0, Math.PI * 2);
+    ctx.arc(bird.x + 15, bird.y + 20, 4, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.beginPath();
+    ctx.arc(bird.x + bird.size - 15, bird.y + 20, 4, 0, Math.PI * 2);
     ctx.fill();
   }
 
