@@ -22,4 +22,11 @@ export const shootingGameAssets = {
   heart: loadImage("src/assets/pictures/heart.png"),
   ares: loadImage("src/assets/pictures/ares.png"),
   horse: loadImage("src/assets/pictures/ares.png"),
+  man1: loadImage("src/assets/pictures/man1.png"),
+  man2: loadImage("src/assets/pictures/man2.png"),
+  man3: loadImage("src/assets/pictures/man3.png"),
+  woman1: loadImage("src/assets/pictures/woman1.png"),
+  woman2: loadImage("src/assets/pictures/woman2.png"),
+  woman3: loadImage("src/assets/pictures/woman3.png"),
+  cursorImage: loadImage("src/assets/pictures/cursor.png"),
 };
