@@ -19,7 +19,7 @@ let running = true;
 const horse = {
   x: canvas.width / 2,
   y: 60,
-  size: 20
+  size: 20,
 };
 
 let cursor = { x: 0, y: 0 };
@@ -31,14 +31,19 @@ document.addEventListener("mousemove", (e) => {
   if (!running) return;
   const rect = canvas.getBoundingClientRect();
   if (rect.width === 0) return;
-  
+
   const scaleX = canvas.width / rect.width;
   const scaleY = canvas.height / rect.height;
-  
+
   const canvasX = e.clientX - rect.left;
   const canvasY = e.clientY - rect.top;
-  
-  if (canvasX >= 0 && canvasX <= rect.width && canvasY >= 0 && canvasY <= rect.height) {
+
+  if (
+    canvasX >= 0 &&
+    canvasX <= rect.width &&
+    canvasY >= 0 &&
+    canvasY <= rect.height
+  ) {
     cursor.x = canvasX * scaleX;
     cursor.y = canvasY * scaleY;
     isAiming = true;
@@ -49,14 +54,19 @@ document.addEventListener("touchmove", (e) => {
   if (!running) return;
   const rect = canvas.getBoundingClientRect();
   if (rect.width === 0) return;
-  
+
   const scaleX = canvas.width / rect.width;
   const scaleY = canvas.height / rect.height;
-  
+
   const canvasX = e.touches[0].clientX - rect.left;
   const canvasY = e.touches[0].clientY - rect.top;
-  
-  if (canvasX >= 0 && canvasX <= rect.width && canvasY >= 0 && canvasY <= rect.height) {
+
+  if (
+    canvasX >= 0 &&
+    canvasX <= rect.width &&
+    canvasY >= 0 &&
+    canvasY <= rect.height
+  ) {
     cursor.x = canvasX * scaleX;
     cursor.y = canvasY * scaleY;
   }
@@ -74,20 +84,20 @@ function shot() {
       y: cursor.y,
       vx: (Math.random() - 0.5) * 4,
       vy: (Math.random() - 0.5) * 4,
-      life: 20
+      life: 20,
     });
   }
 
   shotEffects.push({
     x: cursor.x,
     y: cursor.y,
-    life: 10
+    life: 10,
   });
 
   bullets.push({
     x: cursor.x,
     y: cursor.y,
-    radius: 5
+    radius: 5,
   });
 }
 
@@ -100,7 +110,7 @@ function spawnEnemy() {
     x: side === "left" ? offset : canvas.width - offset,
     y: canvas.height,
     size: 12,
-    speed: Math.random() * 2 + 1
+    speed: Math.random() * 2 + 1,
   });
 }
 
@@ -113,42 +123,41 @@ function spawnFriend() {
     x: side === "left" ? offset : canvas.width - offset,
     y: canvas.height,
     size: 12,
-    speed: Math.random() * 2 + 1
+    speed: Math.random() * 2 + 1,
   });
 }
 
 function update() {
-    if (!running) return;
+  if (!running) return;
 
-    particles.forEach((p, i) => {
+  particles.forEach((p, i) => {
     p.x += p.vx;
     p.y += p.vy;
     p.life--;
 
     if (p.life <= 0) particles.splice(i, 1);
-    });
+  });
 
-    // spawn
-    if (Math.random() < 0.02) spawnEnemy();
-    if (Math.random() < 0.01) spawnFriend();
+  // spawn
+  if (Math.random() < 0.02) spawnEnemy();
+  if (Math.random() < 0.01) spawnFriend();
 
-    // ennemis
-    enemies.forEach((e, i) => {
-
+  // ennemis
+  enemies.forEach((e, i) => {
     const dx = horse.x - e.x;
     const dy = horse.y - e.y;
     const dist = Math.sqrt(dx * dx + dy * dy);
 
     e.x += (dx / dist) * e.speed + (Math.random() - 0.5) * 3;
-    e.y += (dy / dist) * e.speed + (Math.random()) * 0.9;
+    e.y += (dy / dist) * e.speed + Math.random() * 0.9;
 
     // atteint le cheval
     if (dist < horse.size) {
-        loseGame("Un ennemi a atteint le cheval 😱");
+      loseGame("Un ennemi a atteint le cheval 😱");
     }
 
     // animation herbe
-    grass.forEach(g => {
+    grass.forEach((g) => {
       g.sway += 0.05;
     });
 
@@ -168,21 +177,20 @@ function update() {
 
   // alliés
   friends.forEach((f, i) => {
+    const dx = horse.x - f.x;
+    const dy = horse.y - f.y;
+    const dist = Math.sqrt(dx * dx + dy * dy);
 
-  const dx = horse.x - f.x;
-  const dy = horse.y - f.y;
-  const dist = Math.sqrt(dx * dx + dy * dy);
+    f.x += (dx / dist) * f.speed;
+    f.y += (dy / dist) * f.speed;
 
-  f.x += (dx / dist) * f.speed;
-  f.y += (dy / dist) * f.speed;
+    if (dist < horse.size) {
+      spawnHearts(f.x, f.y);
+      friends.splice(i, 1);
+    }
 
-  if (dist < horse.size) {
-  spawnHearts(f.x, f.y);
-  friends.splice(i, 1);
- }
-
-  // collision tir
-});
+    // collision tir
+  });
 
   // nettoyer bullets
   bullets = [];
@@ -197,7 +205,7 @@ function spawnHearts(x, y) {
       y,
       vx: (Math.random() - 0.5) * 2,
       vy: Math.random() * -2 - 1,
-      life: 60
+      life: 60,
     });
   }
 }
@@ -213,9 +221,9 @@ function draw() {
 
   ctx.fillStyle = gradient;
   ctx.fillRect(0, 0, canvas.width, canvas.height);
-  
+
   // anim shot
-  shotEffects.forEach(s => {
+  shotEffects.forEach((s) => {
     const radius = (10 - s.life) * 2;
 
     ctx.globalAlpha = s.life / 10;
@@ -236,7 +244,7 @@ function draw() {
   ctx.globalAlpha = 1;
 
   // anim grass
-  grass.forEach(g => {
+  grass.forEach((g) => {
     const offset = Math.sin(g.sway) * 2;
 
     ctx.strokeStyle = greens[Math.floor(Math.random() * greens.length)];
@@ -254,7 +262,7 @@ function draw() {
 
   // ennemis 👿
   ctx.fillStyle = "red";
-  enemies.forEach(e => {
+  enemies.forEach((e) => {
     ctx.beginPath();
     ctx.arc(e.x, e.y, e.size, 0, Math.PI * 2);
     ctx.fill();
@@ -262,7 +270,7 @@ function draw() {
 
   // alliés 😊
   ctx.fillStyle = "green";
-  friends.forEach(f => {
+  friends.forEach((f) => {
     ctx.beginPath();
     ctx.arc(f.x, f.y, f.size, 0, Math.PI * 2);
     ctx.fill();
@@ -275,10 +283,10 @@ function draw() {
   ctx.stroke();
 
   ctx.beginPath();
-    ctx.moveTo(cursor.x - 12, cursor.y);
-    ctx.lineTo(cursor.x + 12, cursor.y);
-    ctx.moveTo(cursor.x, cursor.y - 12);
-    ctx.lineTo(cursor.x, cursor.y + 12);
+  ctx.moveTo(cursor.x - 12, cursor.y);
+  ctx.lineTo(cursor.x + 12, cursor.y);
+  ctx.moveTo(cursor.x, cursor.y - 12);
+  ctx.lineTo(cursor.x, cursor.y + 12);
   ctx.stroke();
 
   // score
@@ -287,17 +295,11 @@ function draw() {
   ctx.fillText("Score: " + score, 10, 30);
 
   // particules
-  particles.forEach(p => {
-  ctx.globalAlpha = p.life / 60;
-  ctx.drawImage(
-    shootingGameAssets.heart,
-    p.x,
-    p.y,
-    10,
-    10
-  );
-});
-ctx.globalAlpha = 1;
+  particles.forEach((p) => {
+    ctx.globalAlpha = p.life / 60;
+    ctx.drawImage(shootingGameAssets.heart, p.x, p.y, 10, 10);
+  });
+  ctx.globalAlpha = 1;
 }
 
 function gameLoop() {
@@ -356,7 +358,7 @@ export function startShootGame() {
         x: baseX + (Math.random() - 0.5) * 10,
         y: baseY + (Math.random() - 0.5) * 5,
         size: Math.random() * 6 + 6,
-        sway: Math.random() * Math.PI
+        sway: Math.random() * Math.PI,
       });
     }
   }
