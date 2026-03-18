@@ -163,7 +163,7 @@ export function step6() {
 export function step7() {
   showScene(
     "Je te présente Arès, jeune homme",
-    "static/pictures/ares.png",
+    "src/assets/pictures/ares.png",
     step7_0,
   );
 }
@@ -171,7 +171,7 @@ export function step7() {
 function step7_0() {
   showScene(
     "Tu le trouves pas magnifique ce gros bg ?",
-    "static/pictures/ares.png",
+    "src/assets/pictures/ares.png",
     null,
     [
       { text: "Oh que oui !", action: step8 },
@@ -183,7 +183,7 @@ function step7_0() {
 function step7_1() {
   showScene(
     "QUOI ??? Mais t'as quoi dans les yeux mon grand ????",
-    "static/pictures/uncle-hungry.jpg",
+    "src/assets/pictures/uncle-hungry.jpg",
     step7,
   );
   setTimeout(() => {
@@ -194,7 +194,7 @@ function step7_1() {
 function step8() {
   showScene(
     "Tres bien, tu sais ce que Elisa déteste encore plus que les bananes ???",
-    "static/pictures/uncle-noel.png",
+    "src/assets/pictures/uncle-noel.png",
     null,
     [
       { text: "Les gens lents", action: step8_1 },
@@ -209,7 +209,7 @@ function step8() {
 function step8_1() {
   showScene(
     "C'est pas faux, mais y'a quand même quelque chose qu'elle déteste ENCORE PLUS...",
-    "static/pictures/uncle-noel.png",
+    "src/assets/pictures/uncle-noel.png",
     step8,
   );
 }
@@ -217,7 +217,7 @@ function step8_1() {
 function step8_2() {
   showScene(
     "Ah non, je crois qu'elle a un petit kink là-dessus ... ;)",
-    "static/pictures/uncle-noel.png",
+    "src/assets/pictures/uncle-noel.png",
     step8,
   );
 }
@@ -225,7 +225,7 @@ function step8_2() {
 function step9() {
   showScene(
     "BINGO MON GARS !!! Et justement, j'en vois plein qui s'approchent d'Ares en ce moment même. Ta nouvelle mission sera donc...",
-    "static/pictures/uncle-noel.png",
+    "src/assets/pictures/uncle-noel.png",
     step10,
   );
   setTimeout(() => {
@@ -236,7 +236,7 @@ function step9() {
 function step10() {
   showScene(
     "DE LES ELIMINER",
-    "static/pictures/uncle-hungry.jpg",
+    "src/assets/pictures/uncle-hungry.jpg",
     startThirdMission,
   );
   setTimeout(() => {
@@ -247,7 +247,7 @@ function step10() {
 function startThirdMission() {
   showScene(
     "Prends mon fusil à pompe et charge toi de ces zhommes dégoutants (mais pas de moi hein !!!)",
-    "static/pictures/uncle-noel.png",
+    "src/assets/pictures/uncle-noel.png",
     startShootGame,
   );
   setTimeout(() => {
