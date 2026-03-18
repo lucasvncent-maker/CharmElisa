@@ -53,7 +53,6 @@ function updateCursor(clientX, clientY) {
 
 // Track mouse/touch position globally with proper scaling
 document.addEventListener("mousemove", (e) => {
-  if (isTouchDevice) return;
   if (!running) return;
   updateCursor(e.clientX, e.clientY);
 });
