@@ -276,7 +276,7 @@ function step12_0() {
 
 function step12() {
   showScene(
-      "Allez mon gars, elle arrive, prépare toi à la draguer, fais très attention à ce que tu dis et ce qu tu fais, t'as pas intérêt à tout gâcher maintenant !",
+      "Allez mon gars, elle arrive, prépare toi à la draguer, fais très attention à ce que tu dis et ce que tu fais, t'as pas intérêt à tout gâcher maintenant !",
       "src/assets/pictures/uncle-noel.png",
       step13
     );
