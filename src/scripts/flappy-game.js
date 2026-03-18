@@ -34,7 +34,7 @@ export function startFlappyGame() {
     x: 80,
     y: 200,
     velocity: 0,
-    gravity: 0.4,
+    gravity: 0.3,
     lift: -6,
     size: 60,
   };
@@ -78,7 +78,7 @@ function update() {
   }
 
   pipes.forEach((pipe, index) => {
-    pipe.x -= 5;
+    pipe.x -= 4;
 
     // AABB collision detection: check if bird overlaps pipe boundaries
     if (

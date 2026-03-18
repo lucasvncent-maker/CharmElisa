@@ -87,7 +87,7 @@ function spawnObject() {
     x: Math.random() * (canvas.width - 40),
     y: 0,
     size: 40,
-    speed: 3 + Math.random() * 2,
+    speed: 2 + Math.random() * 1.5,
     type: type,
   });
 }
