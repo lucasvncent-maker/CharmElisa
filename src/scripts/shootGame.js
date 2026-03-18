@@ -224,7 +224,7 @@ function gameLoop(now) {
   if (lastTime === 0) lastTime = now;
   const deltaTime = Math.min(now - lastTime, 50);
   lastTime = now;
-  
+
   update(deltaTime);
   draw();
   if (running) {
@@ -340,7 +340,7 @@ function gameLoop(now) {
   if (lastTime === 0) lastTime = now;
   const deltaTime = Math.min(now - lastTime, 50);
   lastTime = now;
-  
+
   update(deltaTime);
   draw();
   if (running) {

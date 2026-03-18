@@ -163,38 +163,38 @@ export function step6() {
 export function step7() {
   showScene(
     "Je te présente Arès, jeune homme",
-    "static/pictures/Ares.png", 
-    step7_0
+    "static/pictures/ares.png",
+    step7_0,
   );
 }
 
 function step7_0() {
   showScene(
     "Tu le trouves pas magnifique ce gros bg ?",
-    "static/pictures/Ares.png",
+    "static/pictures/ares.png",
     null,
     [
-      { text: "Oh que oui !", action: step8},
-      { text: "Bof ...", action: step7_1 }
-    ]
+      { text: "Oh que oui !", action: step8 },
+      { text: "Bof ...", action: step7_1 },
+    ],
   );
 }
 
 function step7_1() {
   showScene(
     "QUOI ??? Mais t'as quoi dans les yeux mon grand ????",
-    "static/pictures/tontonEnerve.jpg",
-    step7
+    "static/pictures/uncle-hungry.jpg",
+    step7,
   );
   setTimeout(() => {
-  shake(30, 600);
+    shake(30, 600);
   }, 20);
 }
 
 function step8() {
   showScene(
     "Tres bien, tu sais ce que Elisa déteste encore plus que les bananes ???",
-    "static/pictures/tonton.png",
+    "static/pictures/uncle-noel.png",
     null,
     [
       { text: "Les gens lents", action: step8_1 },
@@ -202,55 +202,55 @@ function step8() {
       { text: "Les gens qui votent Zemmour", action: step8_2 },
       { text: "Les impôts", action: step8_1 },
       { text: "Les ZHOMMES", action: step9 },
-    ]
+    ],
   );
 }
 
 function step8_1() {
   showScene(
     "C'est pas faux, mais y'a quand même quelque chose qu'elle déteste ENCORE PLUS...",
-    "static/pictures/tonton.png",
-    step8
+    "static/pictures/uncle-noel.png",
+    step8,
   );
 }
 
 function step8_2() {
   showScene(
     "Ah non, je crois qu'elle a un petit kink là-dessus ... ;)",
-    "static/pictures/tonton.png",
-    step8
+    "static/pictures/uncle-noel.png",
+    step8,
   );
 }
 
 function step9() {
   showScene(
-      "BINGO MON GARS !!! Et justement, j'en vois plein qui s'approchent d'Ares en ce moment même. Ta nouvelle mission sera donc...",
-      "static/pictures/tonton.png",
-      step10
-    );
+    "BINGO MON GARS !!! Et justement, j'en vois plein qui s'approchent d'Ares en ce moment même. Ta nouvelle mission sera donc...",
+    "static/pictures/uncle-noel.png",
+    step10,
+  );
   setTimeout(() => {
-  shake(10, 400);
+    shake(10, 400);
   }, 20);
 }
 
 function step10() {
   showScene(
-      "DE LES ELIMINER",
-      "static/pictures/tontonEnerve.jpg",
-      startThirdMission
-    );
+    "DE LES ELIMINER",
+    "static/pictures/uncle-hungry.jpg",
+    startThirdMission,
+  );
   setTimeout(() => {
-  shake(10, 400);
+    shake(10, 400);
   }, 10);
 }
 
 function startThirdMission() {
   showScene(
-      "Prends mon fusil à pompe et charge toi de ces zhommes dégoutants (mais pas de moi hein !!!)",
-      "static/pictures/tonton.png",
-      startShootGame
-    );
+    "Prends mon fusil à pompe et charge toi de ces zhommes dégoutants (mais pas de moi hein !!!)",
+    "static/pictures/uncle-noel.png",
+    startShootGame,
+  );
   setTimeout(() => {
-  shake(10, 400);
+    shake(10, 400);
   }, 10);
 }

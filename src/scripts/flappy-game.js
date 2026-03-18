@@ -56,7 +56,7 @@ function spawnPipe() {
   pipes.push({
     x: canvas.width,
     width: width,
-    offset: 0.13*width, 
+    offset: 0.13 * width,
     top: topHeight,
     bottom: topHeight + gap,
     passed: false,
@@ -124,7 +124,7 @@ function gameLoop(now) {
   if (lastTime === 0) lastTime = now;
   const deltaTime = Math.min(now - lastTime, 50);
   lastTime = now;
-  
+
   update(deltaTime);
   draw();
   if (running) {
@@ -176,7 +176,15 @@ function draw() {
     );
   });
 
-  ctx.drawImage(flappyGameAssets.dog, bird.x, bird.y, bird.size, bird.size);
+  // Draw dog or fallback to circle if image not loaded
+  if (flappyGameAssets.dog.complete) {
+    ctx.drawImage(flappyGameAssets.dog, bird.x, bird.y, bird.size, bird.size);
+  } else {
+    ctx.fillStyle = "#FFD700";
+    ctx.beginPath();
+    ctx.arc(bird.x + bird.size / 2, bird.y + bird.size / 2, bird.size / 2, 0, Math.PI * 2);
+    ctx.fill();
+  }
 
   ctx.fillStyle = "gold";
   ctx.font = "bold 28px Arial";

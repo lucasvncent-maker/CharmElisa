@@ -109,7 +109,7 @@ function update(dt) {
     if (p.y < 0) particles.splice(i, 1);
   });
 
-  if (Math.random() < 0.06) spawnObject();
+  if (Math.random() < 0.03) spawnObject();
 
   objects.forEach((obj, index) => {
     obj.y += (obj.baseSpeed / 1000) * dt;
@@ -184,7 +184,7 @@ function gameLoop(now) {
   if (lastTime === 0) lastTime = now;
   const deltaTime = Math.min(now - lastTime, 50); // Cap at 50ms to prevent large jumps
   lastTime = now;
-  
+
   update(deltaTime);
   draw();
   if (running) {
