@@ -87,7 +87,7 @@ function spawnObject() {
     x: Math.random() * (canvas.width - 40),
     y: 0,
     size: 40,
-    speed: 6 + Math.random() * 4,
+    speed: 4 + Math.random() * 2,
     type: type,
   });
 }
@@ -107,7 +107,7 @@ function update() {
     if (p.y < 0) particles.splice(i, 1);
   });
 
-  if (Math.random() < 0.12) spawnObject();
+  if (Math.random() < 0.08) spawnObject();
 
   objects.forEach((obj, index) => {
     obj.y += obj.speed;
