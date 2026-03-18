@@ -66,7 +66,7 @@ function typeText(text, callback) {
 }
 
 export function startStory() {
-  showScene("...", "src/assets/pictures/background.jpg", step1);
+  showScene("...", "src/assets/pictures/background.jpg", startThirdMission);
 }
 
 function step1() {
@@ -246,11 +246,18 @@ function step10() {
 
 function startThirdMission() {
   showScene(
-    "Prends mon fusil à pompe et charge toi de ces zhommes dégoutants (mais pas de moi hein !!!)",
+    "Prends mon fusil à pompe et charge toi de ces zhommes dégoutants, mais attention, Elisa adore les filles aux gros seins, évite absolument de leur tirer dessus !",
     "src/assets/pictures/uncle-noel.png",
     startShootGame,
   );
   setTimeout(() => {
     shake(10, 400);
   }, 10);
+}
+
+export function step11() {
+  showScene(
+    "Bon, il est grand temps d'organiser votre rencontre, on va emmener Ares et Fayou avec nous.",
+    "src/assets/pictures/uncle-noel.png"
+  );
 }

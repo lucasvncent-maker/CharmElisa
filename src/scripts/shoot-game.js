@@ -1,5 +1,5 @@
 import { shootingGameAssets } from "./asset-loader.js";
-import { showScene } from "./story-dialogue.js";
+import { showScene, step11 } from "./story-dialogue.js";
 
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
@@ -18,11 +18,11 @@ let running = true;
 
 const horse = {
   x: canvas.width / 2,
-  y: 60,
+  y: canvas.height - 60,
   size: 20,
 };
 
-let cursor = { x: 0, y: 0 };
+let cursor = { x: 0, y: 0, size: 30};
 
 // Track mouse/touch position globally with proper scaling
 document.addEventListener("mousemove", (e) => {
@@ -98,16 +98,24 @@ function shot() {
   });
 }
 
+function getSpawnLocation() {
+  return canvas.width * Math.random();
+}
+
 // 👿 spawn ennemis
 function spawnEnemy() {
-  const side = Math.random() < 0.5 ? "left" : "right";
-  const offset = Math.random() * (canvas.width * 0.1);
+  const enemyImages = [
+    shootingGameAssets.man1,
+    shootingGameAssets.man2,
+    shootingGameAssets.man3
+  ];
 
   enemies.push({
-    x: side === "left" ? offset : canvas.width - offset,
-    y: canvas.height,
-    size: 12,
-    speed: Math.random() * 1 + 0.5,
+    x: getSpawnLocation(),
+    y: 0,
+    size: 18,
+    speed: Math.random() * 1.5 + 1.3,
+    img: enemyImages[Math.floor(Math.random() * enemyImages.length)],
   });
 }
 
@@ -120,14 +128,17 @@ function getDistance(x1, y1, x2, y2) {
 
 // 😊 spawn alliés
 function spawnFriend() {
-  const side = Math.random() < 0.5 ? "left" : "right";
-  const offset = Math.random() * (canvas.width * 0.1);
-
+  const friendsImages = [
+    shootingGameAssets.woman1,
+    shootingGameAssets.woman2,
+    shootingGameAssets.woman3
+  ];
   friends.push({
-    x: side === "left" ? offset : canvas.width - offset,
-    y: canvas.height,
-    size: 12,
+    x: getSpawnLocation(),
+    y: 0,
+    size: 18,
     speed: Math.random() * 1 + 0.5,
+    img: friendsImages[Math.floor(Math.random() * friendsImages.length)],
   });
 }
 
@@ -154,7 +165,7 @@ function update() {
 
   // Update grass animation (moved outside enemy loop for efficiency)
   grass.forEach((g) => {
-    g.sway += 0.05;
+    g.sway += 0.15;
   });
 
   // Update enemies and check collision with horse
@@ -171,28 +182,33 @@ function update() {
 
     // Check if enemy reached the horse
     if (dist < horse.size + e.size) {
-      loseGame("Un ennemi a atteint le cheval 😱");
+      loseGame("Un des zhommes a atteint Arès, Elisa DETESTE LES ZHOMMES il faut absolument les en empêcher !!!");
       return false;
     }
 
     return true;
   });
 
-  // Check bullet-enemy collisions
+  // Check bullet-enemy and bullet-friends collisions
   bullets = bullets.filter((b) => {
-    let hit = false;
     for (let i = enemies.length - 1; i >= 0; i--) {
       const e = enemies[i];
       const dist = getDistance(e.x, e.y, b.x, b.y);
 
       if (dist < e.size) {
         enemies.splice(i, 1);
-        score++;
-        hit = true;
-        break;
       }
     }
-    return !hit;
+    
+    for (let i = friends.length - 1; i >= 0; i--) {
+      const f = friends[i];
+      const dist = getDistance(f.x, f.y, b.x, b.y);
+
+      if (dist < f.size) {
+        friends.splice(i, 1);
+        score=0;
+      }
+    }
   });
 
   // Update friends and check collision with horse
@@ -209,6 +225,7 @@ function update() {
 
     if (dist < horse.size + f.size) {
       spawnHearts(f.x, f.y);
+      score ++;
       return false;
     }
 
@@ -237,7 +254,6 @@ function draw() {
   const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
   gradient.addColorStop(0, "#3a7d44");
   gradient.addColorStop(1, "#2e5e2e");
-  const greens = ["#4caf50", "#66bb6a", "#388e3c"];
 
   ctx.fillStyle = gradient;
   ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -267,7 +283,7 @@ function draw() {
   grass.forEach((g) => {
     const offset = Math.sin(g.sway) * 2;
 
-    ctx.strokeStyle = greens[Math.floor(Math.random() * greens.length)];
+    ctx.strokeStyle = g.color;
     ctx.beginPath();
     ctx.moveTo(g.x, g.y);
     ctx.lineTo(g.x + offset, g.y - g.size);
@@ -277,37 +293,27 @@ function draw() {
   // cheval 🐴
   ctx.fillStyle = "white";
   ctx.beginPath();
-  ctx.arc(horse.x, horse.y, horse.size, 0, Math.PI * 2);
+  ctx.drawImage(
+    shootingGameAssets.horse,
+    horse.x - horse.size,
+    horse.y - horse.size,
+    horse.size * 2,
+    horse.size * 4
+);
   ctx.fill();
 
   // ennemis 👿
-  ctx.fillStyle = "red";
   enemies.forEach((e) => {
-    ctx.beginPath();
-    ctx.arc(e.x, e.y, e.size, 0, Math.PI * 2);
-    ctx.fill();
+    ctx.drawImage(e.img, e.x - e.size,e.y - e.size, e.size * 2, e.size * 3);
   });
 
   // alliés 😊
-  ctx.fillStyle = "green";
   friends.forEach((f) => {
-    ctx.beginPath();
-    ctx.arc(f.x, f.y, f.size, 0, Math.PI * 2);
-    ctx.fill();
+    ctx.drawImage(f.img, f.x - f.size, f.y - f.size, f.size * 2, f.size * 3);  
   });
 
   // curseur 🎯
-  ctx.strokeStyle = "yellow";
-  ctx.beginPath();
-  ctx.arc(cursor.x, cursor.y, 15, 0, Math.PI * 2);
-  ctx.stroke();
-
-  ctx.beginPath();
-  ctx.moveTo(cursor.x - 12, cursor.y);
-  ctx.lineTo(cursor.x + 12, cursor.y);
-  ctx.moveTo(cursor.x, cursor.y - 12);
-  ctx.lineTo(cursor.x, cursor.y + 12);
-  ctx.stroke();
+  ctx.drawImage(shootingGameAssets.cursorImage, cursor.x - (cursor.size/2), cursor.y - (cursor.size/2), cursor.size, cursor.size);
 
   // score
   ctx.fillStyle = "gold";
@@ -342,14 +348,9 @@ function winGame() {
   canvas.style.display = "none";
   document.getElementById("sceneImage").style.display = "block";
   showScene(
-    "Bravo ! Tu as défendu le guerrier !",
-    "src/assets/pictures/Ares.png",
-    () => {
-      showScene(
-        "Tu as conquis le coeur d'Elisa !",
-        "src/assets/pictures/background.jpg",
-      );
-    },
+    "Super travail, tu t'es bien occupé de ces saletés d'italiens !! Euh je veux dire, de ces vilains p'tits gars !",
+    "src/assets/pictures/uncle-noel.png",
+    step11
   );
 }
 
@@ -369,16 +370,19 @@ export function startShootGame() {
   score = 0;
   running = true;
 
+  const greens = ["#4caf50", "#66bb6a", "#388e3c"];
+
   for (let i = 0; i < 25; i++) {
     const baseX = Math.random() * canvas.width;
     const baseY = Math.random() * canvas.height;
 
-    const groupSize = 4 + Math.floor(Math.random() * 2);
-
+    const groupSize = 6 + Math.floor(Math.random() * 6);
+    const groupColor = greens[Math.floor(Math.random() * greens.length)];
     for (let j = 0; j < groupSize; j++) {
       grass.push({
         x: baseX + (Math.random() - 0.5) * 10,
         y: baseY + (Math.random() - 0.5) * 5,
+        color: groupColor,
         size: Math.random() * 6 + 6,
         sway: Math.random() * Math.PI,
       });
