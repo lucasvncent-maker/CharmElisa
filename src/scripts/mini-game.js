@@ -109,7 +109,7 @@ function update(dt) {
     if (p.y < 0) particles.splice(i, 1);
   });
 
-  if (Math.random() < 0.015) spawnObject();
+  if (Math.random() < 0.025) spawnObject();
 
   objects.forEach((obj, index) => {
     obj.y += (obj.baseSpeed / 1000) * dt;
