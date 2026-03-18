@@ -25,7 +25,7 @@ body {
   flex-shrink: 0;
   height: 60dvh;
   display: flex;
-  align-items: center;
+  align-items: end;
   justify-content: center;
 }
 
@@ -73,6 +73,7 @@ body {
 
 canvas {
   display: none;
+  height: 45vh;
   background: white;
   border-radius: 10px;
 }
