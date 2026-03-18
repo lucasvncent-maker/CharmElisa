@@ -1,5 +1,6 @@
 function loadImage(src) {
   const img = new Image();
+  img.onerror = () => console.error(`Failed to load image: ${src}`);
   img.src = src;
   return img;
 }
@@ -15,4 +16,10 @@ export const miniGameAssets = {
 export const flappyGameAssets = {
   dog: loadImage("src/assets/images/dog.png"),
   chocolate: loadImage("src/assets/images/chocolate.png"),
+};
+
+export const shootingGameAssets = {
+  heart: loadImage("src/assets/images/heart.png"),
+  ares: loadImage("src/assets/images/ares.png"),
+  horse: loadImage("src/assets/images/ares.png"),
 };

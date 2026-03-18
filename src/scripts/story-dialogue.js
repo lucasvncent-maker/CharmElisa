@@ -1,6 +1,7 @@
 import { shake } from "./effects.js";
 import { startFlappyGame } from "./flappy-game.js";
 import { startMiniGame } from "./mini-game.js";
+import { startShootGame } from "./shoot-game.js";
 
 let isTyping = false;
 let currentAction = null;
@@ -65,7 +66,7 @@ function typeText(text, callback) {
 }
 
 export function startStory() {
-  showScene("...", "src/assets/images/background.jpg", step1);
+  showScene("...", "src/assets/images/background.jpg", startSecondMission);
 }
 
 function step1() {
@@ -149,4 +150,107 @@ function startSecondMission() {
     "src/assets/images/fayou.jpeg",
     startFlappyGame,
   );
+}
+
+export function step6() {
+  showScene(
+    "Merci d'avoir sauvé Fayou !",
+    "src/assets/images/uncle-noel.png",
+    step7,
+  );
+}
+
+export function step7() {
+  showScene(
+    "Je te présente Arès, jeune homme",
+    "static/pictures/ares.png",
+    step7_0,
+  );
+}
+
+function step7_0() {
+  showScene(
+    "Tu le trouves pas magnifique ce gros bg ?",
+    "static/pictures/ares.png",
+    null,
+    [
+      { text: "Oh que oui !", action: step8 },
+      { text: "Bof ...", action: step7_1 },
+    ],
+  );
+}
+
+function step7_1() {
+  showScene(
+    "QUOI ??? Mais t'as quoi dans les yeux mon grand ????",
+    "static/pictures/uncle-hungry.jpg",
+    step7,
+  );
+  setTimeout(() => {
+    shake(30, 600);
+  }, 20);
+}
+
+function step8() {
+  showScene(
+    "Tres bien, tu sais ce que Elisa déteste encore plus que les bananes ???",
+    "static/pictures/uncle-noel.png",
+    null,
+    [
+      { text: "Les gens lents", action: step8_1 },
+      { text: "La pluie", action: step8_1 },
+      { text: "Les gens qui votent Zemmour", action: step8_2 },
+      { text: "Les impôts", action: step8_1 },
+      { text: "Les ZHOMMES", action: step9 },
+    ],
+  );
+}
+
+function step8_1() {
+  showScene(
+    "C'est pas faux, mais y'a quand même quelque chose qu'elle déteste ENCORE PLUS...",
+    "static/pictures/uncle-noel.png",
+    step8,
+  );
+}
+
+function step8_2() {
+  showScene(
+    "Ah non, je crois qu'elle a un petit kink là-dessus ... ;)",
+    "static/pictures/uncle-noel.png",
+    step8,
+  );
+}
+
+function step9() {
+  showScene(
+    "BINGO MON GARS !!! Et justement, j'en vois plein qui s'approchent d'Ares en ce moment même. Ta nouvelle mission sera donc...",
+    "static/pictures/uncle-noel.png",
+    step10,
+  );
+  setTimeout(() => {
+    shake(10, 400);
+  }, 20);
+}
+
+function step10() {
+  showScene(
+    "DE LES ELIMINER",
+    "static/pictures/uncle-hungry.jpg",
+    startThirdMission,
+  );
+  setTimeout(() => {
+    shake(10, 400);
+  }, 10);
+}
+
+function startThirdMission() {
+  showScene(
+    "Prends mon fusil à pompe et charge toi de ces zhommes dégoutants (mais pas de moi hein !!!)",
+    "static/pictures/uncle-noel.png",
+    startShootGame,
+  );
+  setTimeout(() => {
+    shake(10, 400);
+  }, 10);
 }

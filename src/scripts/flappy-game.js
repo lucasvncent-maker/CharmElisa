@@ -1,6 +1,6 @@
 import { flappyGameAssets } from "./asset-loader.js";
 import { shake } from "./effects.js";
-import { showScene } from "./story-dialogue.js";
+import { showScene, step6 } from "./story-dialogue.js";
 
 let bird, pipes, running, score;
 let windParticles = [];
@@ -34,7 +34,7 @@ export function startFlappyGame() {
     x: 80,
     y: 200,
     velocity: 0,
-    gravity: 0.4,
+    gravity: 0.3,
     lift: -6,
     size: 60,
   };
@@ -50,9 +50,11 @@ function spawnPipe() {
   const gap = 200; // Space between top and bottom pipe
   const topHeight = Math.random() * 200 + 50;
 
+  let width = 200;
   pipes.push({
     x: canvas.width,
-    width: 200,
+    width: width,
+    offset: 0.13 * width,
     top: topHeight,
     bottom: topHeight + gap,
     passed: false,
@@ -73,17 +75,18 @@ function update() {
   bird.velocity += bird.gravity;
   bird.y += bird.velocity;
 
-  if (getMaxPipeX(pipes) < canvas.width * 0.2) {
-    if (Math.random() < 0.02) spawnPipe();
+  if (getMaxPipeX(pipes) < canvas.width * 0.01) {
+    if (Math.random() < 0.1) spawnPipe();
   }
 
   pipes.forEach((pipe, index) => {
-    pipe.x -= 5;
+    pipe.x -= 1;
+    pipe.x -= 4;
 
     // AABB collision detection: check if bird overlaps pipe boundaries
     if (
-      bird.x < pipe.x + pipe.width &&
-      bird.x + bird.size > pipe.x &&
+      bird.x < pipe.x + pipe.width - pipe.offset &&
+      bird.x + bird.size > pipe.x + pipe.offset &&
       (bird.y < pipe.top || bird.y + bird.size > pipe.bottom)
     ) {
       loseGame();
@@ -168,10 +171,11 @@ function draw() {
 }
 
 function gameLoop() {
-  if (!running) return;
   update();
   draw();
-  requestAnimationFrame(gameLoop);
+  if (running) {
+    requestAnimationFrame(gameLoop);
+  }
 }
 
 function loseGame() {
@@ -197,6 +201,6 @@ function winGame() {
   showScene(
     "Incroyable ! Tu as sauvé Fayou !",
     "src/assets/images/uncle-noel.png",
-    () => alert("Suite bientôt"),
+    step6,
   );
 }
