@@ -107,7 +107,7 @@ function spawnEnemy() {
     x: side === "left" ? offset : canvas.width - offset,
     y: canvas.height,
     size: 12,
-    speed: Math.random() * 2 + 1,
+    speed: Math.random() * 3 + 2,
   });
 }
 
@@ -127,7 +127,7 @@ function spawnFriend() {
     x: side === "left" ? offset : canvas.width - offset,
     y: canvas.height,
     size: 12,
-    speed: Math.random() * 2 + 1,
+    speed: Math.random() * 3 + 2,
   });
 }
 
@@ -149,8 +149,8 @@ function update() {
   });
 
   // Spawn enemies and friends
-  if (Math.random() < 0.02) spawnEnemy();
-  if (Math.random() < 0.01) spawnFriend();
+if (Math.random() < 0.035) spawnEnemy();
+    if (Math.random() < 0.015) spawnFriend();
 
   // Update grass animation (moved outside enemy loop for efficiency)
   grass.forEach((g) => {
