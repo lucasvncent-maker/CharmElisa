@@ -50,9 +50,11 @@ function spawnPipe() {
   const gap = 200; // Space between top and bottom pipe
   const topHeight = Math.random() * 200 + 50;
 
+  let width = 200;
   pipes.push({
     x: canvas.width,
-    width: 200,
+    width: width,
+    offset: 0.13*width, 
     top: topHeight,
     bottom: topHeight + gap,
     passed: false,
@@ -82,8 +84,8 @@ function update() {
 
     // AABB collision detection: check if bird overlaps pipe boundaries
     if (
-      bird.x < pipe.x + pipe.width &&
-      bird.x + bird.size > pipe.x &&
+      bird.x < pipe.x + pipe.width - pipe.offset &&
+      bird.x + bird.size > pipe.x + pipe.offset &&
       (bird.y < pipe.top || bird.y + bird.size > pipe.bottom)
     ) {
       loseGame();
