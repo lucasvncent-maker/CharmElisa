@@ -75,7 +75,7 @@ function update() {
   bird.velocity += bird.gravity;
   bird.y += bird.velocity;
 
-  if (getMaxPipeX(pipes) < canvas.width * 0.3) {
+  if (getMaxPipeX(pipes) < canvas.width * 0.1) {
     if (Math.random() < 0.01) spawnPipe();
     if (Math.random() < 0.04) spawnPipe();
   }
