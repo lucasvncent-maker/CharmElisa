@@ -5,6 +5,8 @@ import { showScene, step5 } from "./story-dialogue.js";
 let basket, objects, score, lives;
 let running = false;
 let particles = [];
+let lastTime = 0;
+const DT_TARGET = 16.67; // Target 60fps
 
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
@@ -87,30 +89,30 @@ function spawnObject() {
     x: Math.random() * (canvas.width - 40),
     y: 0,
     size: 40,
-    speed: 2 + Math.random() * 1.5,
+    baseSpeed: 150, // pixels per second
     type: type,
   });
 }
 
-function update() {
+function update(dt) {
   if (Math.random() < 0.1) {
     particles.push({
       x: Math.random() * canvas.width,
       y: canvas.height,
       size: Math.random() * 3,
-      speed: 1 + Math.random(),
+      baseSpeed: 100, // pixels per second
     });
   }
 
   particles.forEach((p, i) => {
-    p.y -= p.speed;
+    p.y -= (p.baseSpeed / 1000) * dt;
     if (p.y < 0) particles.splice(i, 1);
   });
 
   if (Math.random() < 0.06) spawnObject();
 
   objects.forEach((obj, index) => {
-    obj.y += obj.speed;
+    obj.y += (obj.baseSpeed / 1000) * dt;
 
     // AABB collision detection: check if object is caught by basket
     if (
@@ -178,8 +180,12 @@ function draw() {
   }
 }
 
-function gameLoop() {
-  update();
+function gameLoop(now) {
+  if (lastTime === 0) lastTime = now;
+  const deltaTime = Math.min(now - lastTime, 50); // Cap at 50ms to prevent large jumps
+  lastTime = now;
+  
+  update(deltaTime);
   draw();
   if (running) {
     requestAnimationFrame(gameLoop);

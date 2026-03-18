@@ -4,6 +4,8 @@ import { showScene, step6 } from "./story-dialogue.js";
 
 let bird, pipes, running, score;
 let windParticles = [];
+let lastTime = 0;
+const DT_TARGET = 16.67; // Target 60fps
 
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
@@ -34,8 +36,8 @@ export function startFlappyGame() {
     x: 80,
     y: 200,
     velocity: 0,
-    gravity: 0.08,
-    lift: -3,
+    gravity: 500, // pixels per second squared
+    lift: -200, // pixels per second
     size: 60,
   };
 
@@ -71,16 +73,16 @@ function getMaxPipeX(pipesList) {
   return max;
 }
 
-function update() {
-  bird.velocity += bird.gravity;
-  bird.y += bird.velocity;
+function update(dt) {
+  bird.velocity += (bird.gravity / 1000) * dt; // Apply gravity
+  bird.y += (bird.velocity / 1000) * dt;
 
   if (getMaxPipeX(pipes) < canvas.width * 0.2) {
     if (Math.random() < 0.01) spawnPipe();
   }
 
   pipes.forEach((pipe, index) => {
-    pipe.x -= 1;
+    pipe.x -= (200 / 1000) * dt; // 200 pixels per second
 
     // AABB collision detection: check if bird overlaps pipe boundaries
     if (
@@ -116,6 +118,18 @@ function update() {
   });
 
   if (score >= 20) winGame();
+}
+
+function gameLoop(now) {
+  if (lastTime === 0) lastTime = now;
+  const deltaTime = Math.min(now - lastTime, 50);
+  lastTime = now;
+  
+  update(deltaTime);
+  draw();
+  if (running) {
+    requestAnimationFrame(gameLoop);
+  }
 }
 
 function draw() {
@@ -167,14 +181,6 @@ function draw() {
   ctx.fillStyle = "gold";
   ctx.font = "bold 28px Arial";
   ctx.fillText(score, canvas.width / 2 - 10, 50);
-}
-
-function gameLoop() {
-  update();
-  draw();
-  if (running) {
-    requestAnimationFrame(gameLoop);
-  }
 }
 
 function loseGame() {

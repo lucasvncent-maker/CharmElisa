@@ -15,6 +15,8 @@ let grass = [];
 let shotEffects = [];
 let score = 0;
 let running = true;
+let lastTime = 0;
+const DT_TARGET = 16.67; // Target 60fps
 
 const horse = {
   x: canvas.width / 2,
@@ -79,8 +81,8 @@ function shot() {
     particles.push({
       x: cursor.x,
       y: cursor.y,
-      vx: (Math.random() - 0.5) * 4,
-      vy: (Math.random() - 0.5) * 4,
+      vx: (Math.random() - 0.5) * 400,
+      vy: (Math.random() - 0.5) * 400,
       life: 20,
     });
   }
@@ -107,7 +109,7 @@ function spawnEnemy() {
     x: side === "left" ? offset : canvas.width - offset,
     y: canvas.height,
     size: 12,
-    speed: Math.random() * 4 + 3,
+    baseSpeed: 150, // pixels per second
   });
 }
 
@@ -127,17 +129,17 @@ function spawnFriend() {
     x: side === "left" ? offset : canvas.width - offset,
     y: canvas.height,
     size: 12,
-    speed: Math.random() * 4 + 3,
+    baseSpeed: 150, // pixels per second
   });
 }
 
-function update() {
+function update(dt) {
   if (!running) return;
 
   // Update particles - use filter instead of splice for safety
   particles = particles.filter((p) => {
-    p.x += p.vx;
-    p.y += p.vy;
+    p.x += (p.vx / 1000) * dt;
+    p.y += (p.vy / 1000) * dt;
     p.life--;
     return p.life > 0;
   });
@@ -166,8 +168,8 @@ function update() {
     // Prevent division by zero
     if (dist === 0) return true;
 
-    e.x += (dx / dist) * e.speed + (Math.random() - 0.5) * 3;
-    e.y += (dy / dist) * e.speed + Math.random() * 0.9;
+    e.x += (dx / dist) * (e.baseSpeed / 1000) * dt + (Math.random() - 0.5) * 3;
+    e.y += (dy / dist) * (e.baseSpeed / 1000) * dt + Math.random() * 0.9;
 
     // Check if enemy reached the horse
     if (dist < horse.size + e.size) {
@@ -204,8 +206,8 @@ function update() {
     // Prevent division by zero
     if (dist === 0) return true;
 
-    f.x += (dx / dist) * f.speed;
-    f.y += (dy / dist) * f.speed;
+    f.x += (dx / dist) * (f.baseSpeed / 1000) * dt;
+    f.y += (dy / dist) * (f.baseSpeed / 1000) * dt;
 
     if (dist < horse.size + f.size) {
       spawnHearts(f.x, f.y);
@@ -218,13 +220,25 @@ function update() {
   if (score >= 10) winGame();
 }
 
+function gameLoop(now) {
+  if (lastTime === 0) lastTime = now;
+  const deltaTime = Math.min(now - lastTime, 50);
+  lastTime = now;
+  
+  update(deltaTime);
+  draw();
+  if (running) {
+    requestAnimationFrame(gameLoop);
+  }
+}
+
 function spawnHearts(x, y) {
   for (let i = 0; i < 8; i++) {
     particles.push({
       x,
       y,
-      vx: (Math.random() - 0.5) * 2,
-      vy: Math.random() * -2 - 1,
+      vx: (Math.random() - 0.5) * 200,
+      vy: Math.random() * -200 - 100,
       life: 60,
     });
   }
@@ -322,8 +336,12 @@ function draw() {
   ctx.globalAlpha = 1;
 }
 
-function gameLoop() {
-  update();
+function gameLoop(now) {
+  if (lastTime === 0) lastTime = now;
+  const deltaTime = Math.min(now - lastTime, 50);
+  lastTime = now;
+  
+  update(deltaTime);
   draw();
   if (running) {
     requestAnimationFrame(gameLoop);
