@@ -15,10 +15,10 @@ An interactive visual novel game created as a birthday gift for Elisa. Navigate 
 
 ```
 CharmElisa/
-├── index.html                  # Entry point
+├── index.html                 # Entry point
 ├── src/
 │   ├── scripts/               # Game logic modules
-│   │   ├── main.js           # Application entry point
+│   │   ├── main.js            # Application entry point
 │   │   ├── story-dialogue.js  # Narrative system and story flow
 │   │   ├── mini-game.js       # Fruit collection mini-game
 │   │   ├── flappy-game.js     # Dog platformer mini-game
@@ -27,7 +27,7 @@ CharmElisa/
 │   └── assets/
 │       ├── images/            # Game graphics and sprites
 │       └── styles/            # CSS styling
-└── Dialogs.txt               # Dialogue strings backup
+└── Dialogs.txt                # Dialogue strings backup
 
 ```
 
@@ -51,6 +51,7 @@ CharmElisa/
 ### Game Flow Pattern
 
 Each game module follows this pattern:
+
 - Initialize game state
 - Set initial player/object positions
 - Game loop: **update** → **draw** → **requestAnimationFrame**
@@ -71,6 +72,7 @@ All images are centrally loaded via `asset-loader.js` to ensure consistent asset
 ### Development
 
 The modular structure makes it easy to extend:
+
 - Add new mini-games by creating new `*-game.js` files
 - Extend the story by adding new functions in `story-dialogue.js`
 - Update visuals in `src/assets/styles/style.css`
@@ -87,4 +89,4 @@ Created for personal use. All rights reserved.
 
 ---
 
-*Made with ❤️ as a birthday surprise*
+_Made with ❤️ as a birthday surprise_
