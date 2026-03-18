@@ -154,7 +154,7 @@ function startSecondMission() {
 
 export function step6() {
   showScene(
-    "Merci d'avoir sauvé Fayou !",
+    "Elisa t'en sera très reconnaissante !! Bon, j'ai quelqu'un d'autre de très important pour elle à te montrer...",
     "src/assets/pictures/uncle-noel.png",
     step7,
   );
