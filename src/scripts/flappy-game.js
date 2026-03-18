@@ -168,10 +168,11 @@ function draw() {
 }
 
 function gameLoop() {
-  if (!running) return;
   update();
   draw();
-  requestAnimationFrame(gameLoop);
+  if (running) {
+    requestAnimationFrame(gameLoop);
+  }
 }
 
 function loseGame() {

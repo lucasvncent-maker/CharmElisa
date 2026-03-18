@@ -24,8 +24,6 @@ const horse = {
 
 let cursor = { x: 0, y: 0 };
 
-let isAiming = false;
-
 // Track mouse/touch position globally with proper scaling
 document.addEventListener("mousemove", (e) => {
   if (!running) return;
@@ -46,7 +44,6 @@ document.addEventListener("mousemove", (e) => {
   ) {
     cursor.x = canvasX * scaleX;
     cursor.y = canvasY * scaleY;
-    isAiming = true;
   }
 });
 
@@ -114,6 +111,13 @@ function spawnEnemy() {
   });
 }
 
+// Helper function for distance-based collision
+function getDistance(x1, y1, x2, y2) {
+  const dx = x2 - x1;
+  const dy = y2 - y1;
+  return Math.sqrt(dx * dx + dy * dy);
+}
+
 // 😊 spawn alliés
 function spawnFriend() {
   const side = Math.random() < 0.5 ? "left" : "right";
@@ -130,70 +134,86 @@ function spawnFriend() {
 function update() {
   if (!running) return;
 
-  particles.forEach((p, i) => {
+  // Update particles - use filter instead of splice for safety
+  particles = particles.filter((p) => {
     p.x += p.vx;
     p.y += p.vy;
     p.life--;
-
-    if (p.life <= 0) particles.splice(i, 1);
+    return p.life > 0;
   });
 
-  // spawn
+  // Update shot effects - clean up expired effects
+  shotEffects = shotEffects.filter((s) => {
+    s.life--;
+    return s.life > 0;
+  });
+
+  // Spawn enemies and friends
   if (Math.random() < 0.02) spawnEnemy();
   if (Math.random() < 0.01) spawnFriend();
 
-  // ennemis
-  enemies.forEach((e, i) => {
+  // Update grass animation (moved outside enemy loop for efficiency)
+  grass.forEach((g) => {
+    g.sway += 0.05;
+  });
+
+  // Update enemies and check collision with horse
+  enemies = enemies.filter((e) => {
     const dx = horse.x - e.x;
     const dy = horse.y - e.y;
-    const dist = Math.sqrt(dx * dx + dy * dy);
+    const dist = getDistance(e.x, e.y, horse.x, horse.y);
+
+    // Prevent division by zero
+    if (dist === 0) return true;
 
     e.x += (dx / dist) * e.speed + (Math.random() - 0.5) * 3;
     e.y += (dy / dist) * e.speed + Math.random() * 0.9;
 
-    // atteint le cheval
-    if (dist < horse.size) {
+    // Check if enemy reached the horse
+    if (dist < horse.size + e.size) {
       loseGame("Un ennemi a atteint le cheval 😱");
+      return false;
     }
 
-    // animation herbe
-    grass.forEach((g) => {
-      g.sway += 0.05;
-    });
+    return true;
+  });
 
-    // collision tir
-    bullets.forEach((b, bi) => {
-      const dx = e.x - b.x;
-      const dy = e.y - b.y;
-      const dist = Math.sqrt(dx * dx + dy * dy);
+  // Check bullet-enemy collisions
+  bullets = bullets.filter((b) => {
+    let hit = false;
+    for (let i = enemies.length - 1; i >= 0; i--) {
+      const e = enemies[i];
+      const dist = getDistance(e.x, e.y, b.x, b.y);
 
       if (dist < e.size) {
         enemies.splice(i, 1);
-        bullets.splice(bi, 1);
         score++;
+        hit = true;
+        break;
       }
-    });
+    }
+    return !hit;
   });
 
-  // alliés
-  friends.forEach((f, i) => {
+  // Update friends and check collision with horse
+  friends = friends.filter((f) => {
     const dx = horse.x - f.x;
     const dy = horse.y - f.y;
-    const dist = Math.sqrt(dx * dx + dy * dy);
+    const dist = getDistance(f.x, f.y, horse.x, horse.y);
+
+    // Prevent division by zero
+    if (dist === 0) return true;
 
     f.x += (dx / dist) * f.speed;
     f.y += (dy / dist) * f.speed;
 
-    if (dist < horse.size) {
+    if (dist < horse.size + f.size) {
       spawnHearts(f.x, f.y);
-      friends.splice(i, 1);
+      return false;
     }
 
-    // collision tir
+    return true;
   });
-
-  // nettoyer bullets
-  bullets = [];
 
   if (score >= 10) winGame();
 }
@@ -305,7 +325,9 @@ function draw() {
 function gameLoop() {
   update();
   draw();
-  requestAnimationFrame(gameLoop);
+  if (running) {
+    requestAnimationFrame(gameLoop);
+  }
 }
 
 function loseGame(message) {

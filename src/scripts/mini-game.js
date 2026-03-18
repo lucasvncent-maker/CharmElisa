@@ -159,6 +159,7 @@ function draw() {
   });
 
   particles.forEach((p) => {
+    ctx.fillStyle = "#ff69b4";
     ctx.beginPath();
     ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
     ctx.fill();
@@ -178,10 +179,11 @@ function draw() {
 }
 
 function gameLoop() {
-  if (!running) return;
   update();
   draw();
-  requestAnimationFrame(gameLoop);
+  if (running) {
+    requestAnimationFrame(gameLoop);
+  }
 }
 
 function loseGame() {

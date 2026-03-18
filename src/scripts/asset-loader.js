@@ -1,5 +1,6 @@
 function loadImage(src) {
   const img = new Image();
+  img.onerror = () => console.error(`Failed to load image: ${src}`);
   img.src = src;
   return img;
 }
