@@ -23,8 +23,9 @@ const horse = {
   size: 20,
 };
 
-let isTouchDevice = false;
 let cursor = { x: 0, y: 0, size: 30};
+let baseHumanSpeed = 0.5;
+const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
 
 document.addEventListener("touchmove", (e) => {
   e.preventDefault();
@@ -46,8 +47,8 @@ function updateCursor(clientX, clientY) {
     canvasY >= 0 &&
     canvasY <= rect.height
   ) {
-    cursor.x = canvasX * scaleX;
-    cursor.y = canvasY * scaleY;
+    cursor.x = Math.round(canvasX * scaleX);
+    cursor.y = Math.round(canvasY * scaleY);
   }
 }
 
@@ -64,12 +65,10 @@ document.addEventListener("touchmove", (e) => {
   updateCursor(touch.clientX, touch.clientY);
 });
 
-document.addEventListener("touchstart", (e) => {
-  isTouchDevice = true;
-
+document.addEventListener("touchend", (e) => {
   if (!running) return;
 
-  const touch = e.touches[0];
+  const touch = e.changedTouches[0];
   updateCursor(touch.clientX, touch.clientY);
 
   shot();
@@ -84,23 +83,6 @@ document.addEventListener("mousedown", (e) => {
 });
 
 function shot() {
-  for (let i = 0; i < 12; i++) {
-    explosionParticles.push({
-      x: cursor.x,
-      y: cursor.y,
-      vx: (Math.random() - 0.5) * 6,
-      vy: (Math.random() - 0.5) * 6,
-      size: Math.random() * 2 + 1,
-      life: 20
-    });
-  }
-
-  shotEffects.push({
-    x: cursor.x,
-    y: cursor.y,
-    life: 10,
-  });
-
   // collision avec ennemis
   for (let i = enemies.length - 1; i >= 0; i--) {
     const e = enemies[i];
@@ -112,7 +94,6 @@ function shot() {
       cursor.y < e.y + e.size
     ) {
       enemies.splice(i, 1);
-      score++;
     }
   }
 
@@ -130,6 +111,23 @@ function shot() {
       score = 0;
     }
   }
+
+  for (let i = 0; i < 12; i++) {
+    explosionParticles.push({
+      x: cursor.x,
+      y: cursor.y,
+      vx: (Math.random() - 0.5) * 6,
+      vy: (Math.random() - 0.5) * 6,
+      size: Math.random() * 2 + 1,
+      life: 20
+    });
+  }
+
+  shotEffects.push({
+    x: cursor.x,
+    y: cursor.y,
+    life: 10,
+  });
 
 }
 
@@ -149,7 +147,7 @@ function spawnEnemy() {
     x: getSpawnLocation(),
     y: 0,
     size: 18,
-    speed: Math.random() * 1.5 + 1.3,
+    speed: Math.random() * 2.5 + baseHumanSpeed,
     img: enemyImages[Math.floor(Math.random() * enemyImages.length)],
   });
 }
@@ -172,7 +170,7 @@ function spawnFriend() {
     x: getSpawnLocation(),
     y: 0,
     size: 18,
-    speed: Math.random() * 1 + 0.5,
+    speed: Math.random() * 1 + baseHumanSpeed,
     img: friendsImages[Math.floor(Math.random() * friendsImages.length)],
   });
 }
@@ -417,6 +415,10 @@ export function startShootGame() {
   document.getElementById("choices").innerHTML = "";
   document.getElementById("dialogue").innerText = "";
 
+
+  if (isTouchDevice) {
+    baseHumanSpeed = 1.5;
+  }
   // Reset game state
   enemies = [];
   friends = [];
