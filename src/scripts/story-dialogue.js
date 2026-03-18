@@ -66,7 +66,7 @@ function typeText(text, callback) {
 }
 
 export function startStory() {
-  showScene("...", "src/assets/images/background.jpg", startSecondMission);
+  showScene("...", "src/assets/images/background.jpg", step1);
 }
 
 function step1() {
