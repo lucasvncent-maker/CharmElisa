@@ -160,65 +160,97 @@ export function step6() {
   );
 }
 
-function step7() {
+export function step7() {
   showScene(
-    "Que ce que Elisa deteste le plus au monde ?",
-    "src/assets/images/uncle-noel.png",
+    "Je te présente Arès, jeune homme",
+    "static/pictures/Ares.png", 
+    step7_0
+  );
+}
+
+function step7_0() {
+  showScene(
+    "Tu le trouves pas magnifique ce gros bg ?",
+    "static/pictures/Ares.png",
     null,
     [
-      { text: "La pluie !", action: chooseWrong },
-      { text: "=", action: chooseWrong },
-      { text: "Les gens qui votent Zemour", action: chooseRef },
-      { text: "?", action: chooseWrong },
-      { text: "Les ZHOMMMES !!", action: chooseZhommes },
-    ],
+      { text: "Oh que oui !", action: step8},
+      { text: "Bof ...", action: step7_1 }
+    ]
   );
 }
 
-function chooseWrong() {
+function step7_1() {
   showScene(
-    "Non ! C'est pas ça !",
-    "src/assets/images/uncle-hungry.jpg",
-    step7,
+    "QUOI ??? Mais t'as quoi dans les yeux mon grand ????",
+    "static/pictures/tontonEnerve.jpg",
+    step7
   );
-}
-
-function chooseRef() {
-  showScene(
-    "Ah non ça c'est son ex !",
-    "src/assets/images/uncle-hungry.jpg",
-    step7,
-  );
-}
-
-function chooseZhommes() {
-  showScene(
-    "Exactement ! Elisa déteste les ZHOMMMES !!!",
-    "src/assets/images/uncle-noel.png",
-    step8,
-  );
+  setTimeout(() => {
+  shake(30, 600);
+  }, 20);
 }
 
 function step8() {
   showScene(
-    "Ares notre guerrier attend de l'aide !",
-    "src/assets/images/ares.png",
-    introduceAresProblem,
+    "Tres bien, tu sais ce que Elisa déteste encore plus que les bananes ???",
+    "static/pictures/tonton.png",
+    null,
+    [
+      { text: "Les gens lents", action: step8_1 },
+      { text: "La pluie", action: step8_1 },
+      { text: "Les gens qui votent Zemmour", action: step8_2 },
+      { text: "Les impôts", action: step8_1 },
+      { text: "Les ZHOMMES", action: step9 },
+    ]
   );
 }
 
-function introduceAresProblem() {
+function step8_1() {
   showScene(
-    "Des ennemis attaquent ! Il faut le protéger !",
-    "src/assets/images/ares.png",
-    startThirdMission,
+    "C'est pas faux, mais y'a quand même quelque chose qu'elle déteste ENCORE PLUS...",
+    "static/pictures/tonton.png",
+    step8
   );
+}
+
+function step8_2() {
+  showScene(
+    "Ah non, je crois qu'elle a un petit kink là-dessus ... ;)",
+    "static/pictures/tonton.png",
+    step8
+  );
+}
+
+function step9() {
+  showScene(
+      "BINGO MON GARS !!! Et justement, j'en vois plein qui s'approchent d'Ares en ce moment même. Ta nouvelle mission sera donc...",
+      "static/pictures/tonton.png",
+      step10
+    );
+  setTimeout(() => {
+  shake(10, 400);
+  }, 20);
+}
+
+function step10() {
+  showScene(
+      "DE LES ELIMINER",
+      "static/pictures/tontonEnerve.jpg",
+      startThirdMission
+    );
+  setTimeout(() => {
+  shake(10, 400);
+  }, 10);
 }
 
 function startThirdMission() {
   showScene(
-    "Défends le guerrier !!!",
-    "src/assets/images/ares.png",
-    startShootGame,
-  );
+      "Prends mon fusil à pompe et charge toi de ces zhommes dégoutants (mais pas de moi hein !!!)",
+      "static/pictures/tonton.png",
+      startShootGame
+    );
+  setTimeout(() => {
+  shake(10, 400);
+  }, 10);
 }
