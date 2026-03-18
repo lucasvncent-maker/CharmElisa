@@ -82,23 +82,6 @@ document.addEventListener("mousedown", (e) => {
 });
 
 function shot() {
-  for (let i = 0; i < 12; i++) {
-    explosionParticles.push({
-      x: cursor.x,
-      y: cursor.y,
-      vx: (Math.random() - 0.5) * 6,
-      vy: (Math.random() - 0.5) * 6,
-      size: Math.random() * 2 + 1,
-      life: 20
-    });
-  }
-
-  shotEffects.push({
-    x: cursor.x,
-    y: cursor.y,
-    life: 10,
-  });
-
   // collision avec ennemis
   for (let i = enemies.length - 1; i >= 0; i--) {
     const e = enemies[i];
@@ -110,7 +93,6 @@ function shot() {
       cursor.y < e.y + e.size
     ) {
       enemies.splice(i, 1);
-      score++;
     }
   }
 
@@ -128,6 +110,23 @@ function shot() {
       score = 0;
     }
   }
+  
+  for (let i = 0; i < 12; i++) {
+    explosionParticles.push({
+      x: cursor.x,
+      y: cursor.y,
+      vx: (Math.random() - 0.5) * 6,
+      vy: (Math.random() - 0.5) * 6,
+      size: Math.random() * 2 + 1,
+      life: 20
+    });
+  }
+
+  shotEffects.push({
+    x: cursor.x,
+    y: cursor.y,
+    life: 10,
+  });
 
 }
 
