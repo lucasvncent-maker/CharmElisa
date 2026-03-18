@@ -1,7 +1,7 @@
 import { shake } from "./effects.js";
 import { startFlappyGame } from "./flappy-game.js";
 import { startMiniGame } from "./mini-game.js";
-import { startShootGame } from "./shootGame.js";
+import { startShootGame } from "./shoot-game.js";
 
 let isTyping = false;
 let currentAction = null;
