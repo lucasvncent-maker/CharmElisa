@@ -24,6 +24,7 @@ const horse = {
   size: 20,
 };
 
+let isTouchDevice = false;
 let cursor = { x: 0, y: 0, size: 30};
 
 document.addEventListener("touchmove", (e) => {
@@ -62,23 +63,24 @@ document.addEventListener("touchmove", (e) => {
 
   const touch = e.touches[0];
   updateCursor(touch.clientX, touch.clientY);
-
-  //shot();
 });
 
 document.addEventListener("touchstart", (e) => {
+  isTouchDevice = true;
+
   if (!running) return;
 
   const touch = e.touches[0];
-  updateCursor(touch.clientX, touch.clientY); // 🔥 MAJ AVANT
+  updateCursor(touch.clientX, touch.clientY);
 
   shot();
 });
 
 document.addEventListener("mousedown", (e) => {
+  if (isTouchDevice) return;
   if (!running) return;
 
-  updateCursor(e.clientX, e.clientY); // 🔥 important
+  updateCursor(e.clientX, e.clientY);
   shot();
 });
 
