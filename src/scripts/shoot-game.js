@@ -63,11 +63,22 @@ document.addEventListener("touchmove", (e) => {
   const touch = e.touches[0];
   updateCursor(touch.clientX, touch.clientY);
 
+  //shot();
+});
+
+document.addEventListener("touchstart", (e) => {
+  if (!running) return;
+
+  const touch = e.touches[0];
+  updateCursor(touch.clientX, touch.clientY); // 🔥 MAJ AVANT
+
   shot();
 });
 
-document.addEventListener("pointerdown", () => {
+document.addEventListener("mousedown", (e) => {
   if (!running) return;
+
+  updateCursor(e.clientX, e.clientY); // 🔥 important
   shot();
 });
 
