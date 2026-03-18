@@ -154,8 +154,55 @@ function startSecondMission() {
 
 export function step6() {
   showScene(
-    "Ares notre guerrier attend l'aide !",
-    "src/assets/images/Ares.png",
+    "Merci d'avoir sauvé Fayou !",
+    "src/assets/images/uncle-noel.png",
+    step7,
+  );
+}
+
+function step7() {
+  showScene(
+    "Que ce que Elisa deteste le plus au monde ?",
+    "src/assets/images/uncle-noel.png",
+    null,
+    [
+      { text: "La pluie !", action: chooseWrong },
+      { text: "=", action: chooseWrong },
+      { text: "Les gens qui votent Zemour", action: chooseRef },
+      { text: "?", action: chooseWrong },
+      { text: "Les ZHOMMMES !!", action: chooseZhommes },
+    ],
+  );
+}
+
+function chooseWrong() {
+  showScene(
+    "Non ! C'est pas ça !",
+    "src/assets/images/uncle-hungry.jpg",
+    step7,
+  );
+}
+
+function chooseRef() {
+  showScene(
+    "Ah non ça c'est son ex !",
+    "src/assets/images/uncle-hungry.jpg",
+    step7,
+  );
+}
+
+function chooseZhommes() {
+  showScene(
+    "Exactement ! Elisa déteste les ZHOMMMES !!!",
+    "src/assets/images/uncle-noel.png",
+    step8,
+  );
+}
+
+function step8() {
+  showScene(
+    "Ares notre guerrier attend de l'aide !",
+    "src/assets/images/ares.png",
     introduceAresProblem,
   );
 }
@@ -163,7 +210,7 @@ export function step6() {
 function introduceAresProblem() {
   showScene(
     "Des ennemis attaquent ! Il faut le protéger !",
-    "src/assets/images/Ares.png",
+    "src/assets/images/ares.png",
     startThirdMission,
   );
 }
@@ -171,7 +218,7 @@ function introduceAresProblem() {
 function startThirdMission() {
   showScene(
     "Défends le guerrier !!!",
-    "src/assets/images/Ares.png",
+    "src/assets/images/ares.png",
     startShootGame,
   );
 }

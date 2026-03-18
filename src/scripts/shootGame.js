@@ -107,7 +107,7 @@ function spawnEnemy() {
     x: side === "left" ? offset : canvas.width - offset,
     y: canvas.height,
     size: 12,
-    speed: Math.random() * 2 + 1,
+    speed: Math.random() * 1 + 0.5,
   });
 }
 
@@ -127,7 +127,7 @@ function spawnFriend() {
     x: side === "left" ? offset : canvas.width - offset,
     y: canvas.height,
     size: 12,
-    speed: Math.random() * 2 + 1,
+    speed: Math.random() * 1 + 0.5,
   });
 }
 
@@ -149,8 +149,8 @@ function update() {
   });
 
   // Spawn enemies and friends
-  if (Math.random() < 0.02) spawnEnemy();
-  if (Math.random() < 0.01) spawnFriend();
+  if (Math.random() < 0.01) spawnEnemy();
+  if (Math.random() < 0.005) spawnFriend();
 
   // Update grass animation (moved outside enemy loop for efficiency)
   grass.forEach((g) => {
@@ -334,7 +334,7 @@ function loseGame(message) {
   running = false;
   canvas.style.display = "none";
   document.getElementById("sceneImage").style.display = "block";
-  showScene(message, "src/assets/images/uncle-noel.png");
+  showScene(message, "src/assets/images/uncle-noel.png", startShootGame);
 }
 
 function winGame() {
