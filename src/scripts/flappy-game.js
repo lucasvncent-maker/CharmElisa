@@ -4,8 +4,6 @@ import { showScene, step6 } from "./story-dialogue.js";
 
 let bird, pipes, running, score;
 let windParticles = [];
-let lastTime = 0;
-const DT_TARGET = 16.67; // Target 60fps
 
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
@@ -36,8 +34,8 @@ export function startFlappyGame() {
     x: 80,
     y: 200,
     velocity: 0,
-    gravity: 500, // pixels per second squared
-    lift: -200, // pixels per second
+    gravity: 0.3,
+    lift: -6,
     size: 60,
   };
 
@@ -73,16 +71,18 @@ function getMaxPipeX(pipesList) {
   return max;
 }
 
-function update(dt) {
-  bird.velocity += (bird.gravity / 1000) * dt; // Apply gravity
-  bird.y += (bird.velocity / 1000) * dt;
+function update() {
+  bird.velocity += bird.gravity;
+  bird.y += bird.velocity;
 
   if (getMaxPipeX(pipes) < canvas.width * 0.2) {
     if (Math.random() < 0.01) spawnPipe();
+    if (Math.random() < 0.04) spawnPipe();
   }
 
   pipes.forEach((pipe, index) => {
-    pipe.x -= (200 / 1000) * dt; // 200 pixels per second
+    pipe.x -= 1;
+    pipe.x -= 4;
 
     // AABB collision detection: check if bird overlaps pipe boundaries
     if (
@@ -118,18 +118,6 @@ function update(dt) {
   });
 
   if (score >= 20) winGame();
-}
-
-function gameLoop(now) {
-  if (lastTime === 0) lastTime = now;
-  const deltaTime = Math.min(now - lastTime, 50);
-  lastTime = now;
-
-  update(deltaTime);
-  draw();
-  if (running) {
-    requestAnimationFrame(gameLoop);
-  }
 }
 
 function draw() {
@@ -176,25 +164,19 @@ function draw() {
     );
   });
 
-  // Draw dog with fallback
-  if (flappyGameAssets.dog.complete && flappyGameAssets.dog.naturalHeight > 0) {
-    ctx.drawImage(flappyGameAssets.dog, bird.x, bird.y, bird.size, bird.size);
-  } else {
-    // Fallback: Draw a simple dog-like shape
-    ctx.fillStyle = "#8B4513";
-    ctx.fillRect(bird.x + 5, bird.y + 10, bird.size - 10, bird.size - 20);
-    ctx.fillStyle = "#000";
-    ctx.beginPath();
-    ctx.arc(bird.x + 15, bird.y + 20, 4, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.beginPath();
-    ctx.arc(bird.x + bird.size - 15, bird.y + 20, 4, 0, Math.PI * 2);
-    ctx.fill();
-  }
+  ctx.drawImage(flappyGameAssets.dog, bird.x, bird.y, bird.size, bird.size);
 
   ctx.fillStyle = "gold";
   ctx.font = "bold 28px Arial";
   ctx.fillText(score, canvas.width / 2 - 10, 50);
+}
+
+function gameLoop() {
+  update();
+  draw();
+  if (running) {
+    requestAnimationFrame(gameLoop);
+  }
 }
 
 function loseGame() {

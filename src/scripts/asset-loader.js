@@ -21,5 +21,5 @@ export const flappyGameAssets = {
 export const shootingGameAssets = {
   heart: loadImage("src/assets/images/heart.png"),
   ares: loadImage("src/assets/images/ares.png"),
-  horse: loadImage("src/assets/images/horse.png"),
+  horse: loadImage("src/assets/images/ares.png"),
 };
