@@ -187,7 +187,7 @@ function loseGame() {
 
   showScene(
     "Non ! Fayou a mangé du chocolat ! C'est toxique pour les chiens...",
-    "src/assets/images/uncle-noel.png",
+    "src/assets/pictures/uncle-noel.png",
     startFlappyGame,
   );
 }
@@ -200,7 +200,7 @@ function winGame() {
 
   showScene(
     "Incroyable ! Tu as sauvé Fayou !",
-    "src/assets/images/uncle-noel.png",
+    "src/assets/pictures/uncle-noel.png",
     step6,
   );
 }

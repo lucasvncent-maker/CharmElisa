@@ -6,20 +6,20 @@ function loadImage(src) {
 }
 
 export const miniGameAssets = {
-  sausage: loadImage("src/assets/images/sausage.png"),
-  banana: loadImage("src/assets/images/banana.png"),
-  cucumber: loadImage("src/assets/images/cucumber.png"),
-  heart: loadImage("src/assets/images/heart.png"),
-  fayou: loadImage("src/assets/images/fayou.jpeg"),
+  sausage: loadImage("src/assets/pictures/sausage.png"),
+  banana: loadImage("src/assets/pictures/banana.png"),
+  cucumber: loadImage("src/assets/pictures/cucumber.png"),
+  heart: loadImage("src/assets/pictures/heart.png"),
+  fayou: loadImage("src/assets/pictures/fayou.jpeg"),
 };
 
 export const flappyGameAssets = {
-  dog: loadImage("src/assets/images/dog.png"),
-  chocolate: loadImage("src/assets/images/chocolate.png"),
+  dog: loadImage("src/assets/pictures/dog.png"),
+  chocolate: loadImage("src/assets/pictures/chocolate.png"),
 };
 
 export const shootingGameAssets = {
-  heart: loadImage("src/assets/images/heart.png"),
-  ares: loadImage("src/assets/images/ares.png"),
-  horse: loadImage("src/assets/images/ares.png"),
+  heart: loadImage("src/assets/pictures/heart.png"),
+  ares: loadImage("src/assets/pictures/ares.png"),
+  horse: loadImage("src/assets/pictures/ares.png"),
 };

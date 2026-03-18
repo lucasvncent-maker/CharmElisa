@@ -66,11 +66,11 @@ function typeText(text, callback) {
 }
 
 export function startStory() {
-  showScene("...", "src/assets/images/background.jpg", step1);
+  showScene("...", "src/assets/pictures/background.jpg", step1);
 }
 
 function step1() {
-  showScene("Réveille-toi !!!", "src/assets/images/background.jpg", step2);
+  showScene("Réveille-toi !!!", "src/assets/pictures/background.jpg", step2);
   setTimeout(() => {
     shake(10, 400);
   }, 100);
@@ -79,7 +79,7 @@ function step1() {
 function step2() {
   showScene(
     "Flemmard, arrête de dormir !!!",
-    "src/assets/images/background.jpg",
+    "src/assets/pictures/background.jpg",
     step3,
   );
 }
@@ -87,7 +87,7 @@ function step2() {
 function step3() {
   showScene(
     "Bonjour, jeune homme, je suis tonton Noël, ton fidèle conseiller.",
-    "src/assets/images/uncle-noel.png",
+    "src/assets/pictures/uncle-noel.png",
     step4,
   );
 }
@@ -95,7 +95,7 @@ function step3() {
 function step4() {
   showScene(
     "Aujourd'hui, tu vas devoir CONQUÉRIR LE COEUR D'ELISA !!!",
-    "src/assets/images/uncle-noel.png",
+    "src/assets/pictures/uncle-noel.png",
     null,
     [
       { text: "Allons-y !", action: chooseYes },
@@ -107,7 +107,7 @@ function step4() {
 function chooseYes() {
   showScene(
     "Concentre-toi bien, c'est la femme LA PLUS PARFAITE DE L'UNIVERS.",
-    "src/assets/images/uncle-noel.png",
+    "src/assets/pictures/uncle-noel.png",
     startFirstMission,
   );
 }
@@ -115,7 +115,7 @@ function chooseYes() {
 function chooseNo() {
   showScene(
     "Parce que c'est la femme LA PLUS PARFAITE DE L'UNIVERS gros NIGAUD !!!",
-    "src/assets/images/uncle-noel.png",
+    "src/assets/pictures/uncle-noel.png",
     startFirstMission,
   );
 }
@@ -123,7 +123,7 @@ function chooseNo() {
 function startFirstMission() {
   showScene(
     "Ramasse uniquement ce qu'elle aime... fais attention !",
-    "src/assets/images/uncle-noel.png",
+    "src/assets/pictures/uncle-noel.png",
     startMiniGame,
   );
 }
@@ -131,7 +131,7 @@ function startFirstMission() {
 export function step5() {
   showScene(
     "OUAF OUAF !!",
-    "src/assets/images/fayou.jpeg",
+    "src/assets/pictures/fayou.jpeg",
     introduceFayouProblem,
   );
 }
@@ -139,7 +139,7 @@ export function step5() {
 function introduceFayouProblem() {
   showScene(
     "Oh non, quelqu'un a renversé du chocolat de partout, il faut protéger Fayou !!",
-    "src/assets/images/fayou.jpeg",
+    "src/assets/pictures/fayou.jpeg",
     startSecondMission,
   );
 }
@@ -147,7 +147,7 @@ function introduceFayouProblem() {
 function startSecondMission() {
   showScene(
     "Vite !! Sauve-le !!",
-    "src/assets/images/fayou.jpeg",
+    "src/assets/pictures/fayou.jpeg",
     startFlappyGame,
   );
 }
@@ -155,7 +155,7 @@ function startSecondMission() {
 export function step6() {
   showScene(
     "Merci d'avoir sauvé Fayou !",
-    "src/assets/images/uncle-noel.png",
+    "src/assets/pictures/uncle-noel.png",
     step7,
   );
 }

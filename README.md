@@ -25,7 +25,7 @@ CharmElisa/
 │   │   ├── effects.js         # Visual effects (shake, particles)
 │   │   └── asset-loader.js    # Image asset management
 │   └── assets/
-│       ├── images/            # Game graphics and sprites
+│       ├── pictures/            # Game graphics and sprites
 │       └── styles/            # CSS styling
 └── Dialogs.txt                # Dialogue strings backup
 
@@ -60,7 +60,7 @@ Each game module follows this pattern:
 
 ### Asset System
 
-All images are centrally loaded via `asset-loader.js` to ensure consistent asset management and error handling.
+All pictures are centrally loaded via `asset-loader.js` to ensure consistent asset management and error handling.
 
 ## 🚀 Getting Started
 
@@ -76,7 +76,7 @@ The modular structure makes it easy to extend:
 - Add new mini-games by creating new `*-game.js` files
 - Extend the story by adding new functions in `story-dialogue.js`
 - Update visuals in `src/assets/styles/style.css`
-- Add game assets to `src/assets/images/`
+- Add game assets to `src/assets/pictures/`
 
 ## 👥 Collaborators
 

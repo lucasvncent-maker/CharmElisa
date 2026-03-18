@@ -199,7 +199,7 @@ function loseGame() {
 
   showScene(
     "Ecoute mon p'tit gars, concentre-toi si tu veux conquérir cette immense frappe qu'est Elisa !",
-    "src/assets/images/uncle-noel.png",
+    "src/assets/pictures/uncle-noel.png",
     startMiniGame,
   );
 }
@@ -211,7 +211,7 @@ function winGame() {
 
   showScene(
     "Bien joué beau gosse ! Tu as assez de saucissons !",
-    "src/assets/images/uncle-noel.png",
+    "src/assets/pictures/uncle-noel.png",
     step5,
   );
 }

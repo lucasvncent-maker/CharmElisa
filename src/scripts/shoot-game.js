@@ -334,7 +334,7 @@ function loseGame(message) {
   running = false;
   canvas.style.display = "none";
   document.getElementById("sceneImage").style.display = "block";
-  showScene(message, "src/assets/images/uncle-noel.png", startShootGame);
+  showScene(message, "src/assets/pictures/uncle-noel.png", startShootGame);
 }
 
 function winGame() {
@@ -343,11 +343,11 @@ function winGame() {
   document.getElementById("sceneImage").style.display = "block";
   showScene(
     "Bravo ! Tu as défendu le guerrier !",
-    "src/assets/images/Ares.png",
+    "src/assets/pictures/Ares.png",
     () => {
       showScene(
         "Tu as conquis le coeur d'Elisa !",
-        "src/assets/images/background.jpg",
+        "src/assets/pictures/background.jpg",
       );
     },
   );
