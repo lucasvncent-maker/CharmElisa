@@ -1,6 +1,7 @@
 import { shake } from "./effects.js";
 import { startFlappyGame } from "./flappy-game.js";
 import { startMiniGame } from "./mini-game.js";
+import { startShootGame } from "./shootGame.js";
 
 let isTyping = false;
 let currentAction = null;
@@ -148,5 +149,29 @@ function startSecondMission() {
     "Vite !! Sauve-le !!",
     "src/assets/images/fayou.jpeg",
     startFlappyGame,
+  );
+}
+
+export function step6() {
+  showScene(
+    "Ares notre guerrier attend l'aide !",
+    "src/assets/images/Ares.png",
+    introduceAresProblem,
+  );
+}
+
+function introduceAresProblem() {
+  showScene(
+    "Des ennemis attaquent ! Il faut le protéger !",
+    "src/assets/images/Ares.png",
+    startThirdMission,
+  );
+}
+
+function startThirdMission() {
+  showScene(
+    "Défends le guerrier !!!",
+    "src/assets/images/Ares.png",
+    startShootGame,
   );
 }

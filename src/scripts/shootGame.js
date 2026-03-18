@@ -1,10 +1,11 @@
-import { images3 } from "./assets.js";
+import { shootingGameAssets } from "./asset-loader.js";
+import { showScene } from "./story-dialogue.js";
 
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
 
-canvas.width = 600;
-canvas.height = 400;
+canvas.width = 350;
+canvas.height = 500;
 
 let enemies = [];
 let friends = [];
@@ -25,43 +26,44 @@ let cursor = { x: 0, y: 0 };
 
 let isAiming = false;
 
-// PC (clic maintenu)
-canvas.addEventListener("mousedown", () => {
-  isAiming = true;
-});
-
-canvas.addEventListener("mouseup", () => {
-  isAiming = false;
-});
-
-document.addEventListener("keydown", (e) => {
-  if (e.code === "Space") {
-    e.preventDefault(); // évite scroll
-
-    if (!running) return;
-
-    shot();
+// Track mouse/touch position globally with proper scaling
+document.addEventListener("mousemove", (e) => {
+  if (!running) return;
+  const rect = canvas.getBoundingClientRect();
+  if (rect.width === 0) return;
+  
+  const scaleX = canvas.width / rect.width;
+  const scaleY = canvas.height / rect.height;
+  
+  const canvasX = e.clientX - rect.left;
+  const canvasY = e.clientY - rect.top;
+  
+  if (canvasX >= 0 && canvasX <= rect.width && canvasY >= 0 && canvasY <= rect.height) {
+    cursor.x = canvasX * scaleX;
+    cursor.y = canvasY * scaleY;
+    isAiming = true;
   }
 });
 
-canvas.addEventListener("mousemove", (e) => {
-  if (!isAiming) return;
-
-  const rect = canvas.getBoundingClientRect();
-  cursor.x = e.clientX - rect.left;
-  cursor.y = e.clientY - rect.top;
-});
-
-canvas.addEventListener("touchmove", (e) => {
-  const rect = canvas.getBoundingClientRect();
-  cursor.x = e.touches[0].clientX - rect.left;
-  cursor.y = e.touches[0].clientY - rect.top;
-});
-
-// 🔫 tir
-document.getElementById("shootBtn").addEventListener("click", () => {
+document.addEventListener("touchmove", (e) => {
   if (!running) return;
+  const rect = canvas.getBoundingClientRect();
+  if (rect.width === 0) return;
+  
+  const scaleX = canvas.width / rect.width;
+  const scaleY = canvas.height / rect.height;
+  
+  const canvasX = e.touches[0].clientX - rect.left;
+  const canvasY = e.touches[0].clientY - rect.top;
+  
+  if (canvasX >= 0 && canvasX <= rect.width && canvasY >= 0 && canvasY <= rect.height) {
+    cursor.x = canvasX * scaleX;
+    cursor.y = canvasY * scaleY;
+  }
+});
 
+document.addEventListener("pointerdown", () => {
+  if (!running) return;
   shot();
 });
 
@@ -184,6 +186,8 @@ function update() {
 
   // nettoyer bullets
   bullets = [];
+
+  if (score >= 10) winGame();
 }
 
 function spawnHearts(x, y) {
@@ -286,7 +290,7 @@ function draw() {
   particles.forEach(p => {
   ctx.globalAlpha = p.life / 60;
   ctx.drawImage(
-    images3.imgHeart,
+    shootingGameAssets.heart,
     p.x,
     p.y,
     10,
@@ -304,24 +308,48 @@ function gameLoop() {
 
 function loseGame(message) {
   running = false;
-  document.getElementById("shootBtn").style.display = "none";
-  document.getElementById("gameCanvas").style.display = "none";
-  alert(message);
+  canvas.style.display = "none";
+  document.getElementById("sceneImage").style.display = "block";
+  showScene(message, "src/assets/images/uncle-noel.png");
 }
 
+function winGame() {
+  running = false;
+  canvas.style.display = "none";
+  document.getElementById("sceneImage").style.display = "block";
+  showScene(
+    "Bravo ! Tu as défendu le guerrier !",
+    "src/assets/images/Ares.png",
+    () => {
+      showScene(
+        "Tu as conquis le coeur d'Elisa !",
+        "src/assets/images/background.jpg",
+      );
+    },
+  );
+}
 
 export function startShootGame() {
-  const canvas = document.getElementById("gameCanvas");
-  const btn = document.getElementById("shootBtn");
-
   canvas.style.display = "block";
-  btn.style.display = "block";
+  document.getElementById("sceneImage").style.display = "none";
+  document.getElementById("choices").innerHTML = "";
+  document.getElementById("dialogue").innerText = "";
+
+  // Reset game state
+  enemies = [];
+  friends = [];
+  bullets = [];
+  particles = [];
+  grass = [];
+  shotEffects = [];
+  score = 0;
+  running = true;
 
   for (let i = 0; i < 25; i++) {
     const baseX = Math.random() * canvas.width;
     const baseY = Math.random() * canvas.height;
 
-    const groupSize = 4 + Math.floor(Math.random() * 2); // 4 ou 5
+    const groupSize = 4 + Math.floor(Math.random() * 2);
 
     for (let j = 0; j < groupSize; j++) {
       grass.push({
@@ -333,10 +361,5 @@ export function startShootGame() {
     }
   }
 
-  document.getElementById("sceneImage").style.display = "none";
-  document.getElementById("choices").innerHTML = "";
-  document.getElementById("dialogue").innerText = "";
-
-  // init ton jeu ici
   gameLoop();
 }

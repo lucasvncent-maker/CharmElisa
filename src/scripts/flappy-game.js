@@ -1,6 +1,6 @@
 import { flappyGameAssets } from "./asset-loader.js";
 import { shake } from "./effects.js";
-import { showScene } from "./story-dialogue.js";
+import { showScene, step6 } from "./story-dialogue.js";
 
 let bird, pipes, running, score;
 let windParticles = [];
@@ -197,6 +197,6 @@ function winGame() {
   showScene(
     "Incroyable ! Tu as sauvé Fayou !",
     "src/assets/images/uncle-noel.png",
-    () => alert("Suite bientôt"),
+    step6,
   );
 }
