@@ -11,10 +11,12 @@ let enemies = [];
 let friends = [];
 let bullets = [];
 let particles = [];
+let explosionParticles = [];
 let grass = [];
 let shotEffects = [];
 let score = 0;
 let running = true;
+
 
 const horse = {
   x: canvas.width / 2,
@@ -58,13 +60,14 @@ document.addEventListener("pointerdown", () => {
 });
 
 function shot() {
-  for (let i = 0; i < 6; i++) {
-    particles.push({
+  for (let i = 0; i < 12; i++) {
+    explosionParticles.push({
       x: cursor.x,
       y: cursor.y,
-      vx: (Math.random() - 0.5) * 4,
-      vy: (Math.random() - 0.5) * 4,
-      life: 20,
+      vx: (Math.random() - 0.5) * 6,
+      vy: (Math.random() - 0.5) * 6,
+      size: Math.random() * 2 + 1,
+      life: 20
     });
   }
 
@@ -134,6 +137,19 @@ function update() {
     p.y += p.vy;
     p.life--;
     return p.life > 0;
+  });
+
+  explosionParticles.forEach((p, i) => {
+    p.x += p.vx;
+    p.y += p.vy;
+
+    // ralentissement (effet réaliste)
+    p.vx *= 0.95;
+    p.vy *= 0.95;
+
+    p.life--;
+
+    if (p.life <= 0) explosionParticles.splice(i, 1);
   });
 
   // Update shot effects - clean up expired effects
@@ -230,6 +246,23 @@ function spawnHearts(x, y) {
   }
 }
 
+function drawStar(x, y, size) {
+  ctx.beginPath();
+  for (let i = 0; i < 5; i++) {
+    const angle = (i * 2 * Math.PI) / 5 - Math.PI / 2;
+    const outerX = x + Math.cos(angle) * size;
+    const outerY = y + Math.sin(angle) * size;
+
+    const innerAngle = angle + Math.PI / 5;
+    const innerX = x + Math.cos(innerAngle) * (size / 2);
+    const innerY = y + Math.sin(innerAngle) * (size / 2);
+
+    ctx.lineTo(outerX, outerY);
+    ctx.lineTo(innerX, innerY);
+  }
+  ctx.closePath();
+}
+
 function draw() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -243,20 +276,34 @@ function draw() {
 
   // anim shot
   shotEffects.forEach((s) => {
-    const radius = (10 - s.life) * 2;
+    const progress = 1 - s.life / 8;
 
-    ctx.globalAlpha = s.life / 10;
+    ctx.globalAlpha = s.life / 8;
 
-    // cercle flash
+    // flash central
     ctx.beginPath();
-    ctx.arc(s.x, s.y, radius, 0, Math.PI * 2);
-    ctx.strokeStyle = "yellow";
-    ctx.stroke();
+    ctx.arc(s.x, s.y, 10 + progress * 20, 0, Math.PI * 2);
+    ctx.fillStyle = "rgba(255, 200, 50, 0.5)";
+    ctx.fill();
 
-    // petit centre
+    // cœur lumineux
     ctx.beginPath();
-    ctx.arc(s.x, s.y, 3, 0, Math.PI * 2);
+    ctx.arc(s.x, s.y, 5, 0, Math.PI * 2);
     ctx.fillStyle = "white";
+    ctx.fill();
+  });
+  
+  explosionParticles.forEach(p => {
+    const lifeRatio = p.life / 20;
+
+    ctx.globalAlpha = lifeRatio;
+
+    const r = 255;
+    const g = Math.floor(200 * lifeRatio);
+
+    ctx.fillStyle = `rgb(${r},${g},0)`;
+
+    drawStar(p.x, p.y, p.size);
     ctx.fill();
   });
 
