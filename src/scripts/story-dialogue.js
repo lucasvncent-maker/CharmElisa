@@ -409,7 +409,7 @@ function step22() {
 
 function step23() {
   showScene(
-      "F  I  N",
+      "Fin du jeu, bravo !",
       "src/assets/pictures/elisa-mirror.jpeg",
       step24
     );
