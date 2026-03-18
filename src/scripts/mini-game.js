@@ -12,6 +12,43 @@ const ctx = canvas.getContext("2d");
 canvas.width = 350;
 canvas.height = 500;
 
+// Track mouse position globally
+document.addEventListener("mousemove", (e) => {
+  if (!running) return;
+  const rect = canvas.getBoundingClientRect();
+  if (rect.width === 0) return;
+
+  // Calculate position within canvas bounds
+  const canvasX = e.clientX - rect.left;
+  if (canvasX >= 0 && canvasX <= rect.width) {
+    // Scale from visual to logical coordinates
+    const scaleX = canvas.width / rect.width;
+    const logicalX = canvasX * scaleX;
+    basket.x = Math.max(
+      0,
+      Math.min(logicalX - basket.width / 2, canvas.width - basket.width),
+    );
+  }
+});
+
+document.addEventListener("touchmove", (e) => {
+  if (!running) return;
+  const rect = canvas.getBoundingClientRect();
+  if (rect.width === 0) return;
+
+  // Calculate position within canvas bounds
+  const canvasX = e.touches[0].clientX - rect.left;
+  if (canvasX >= 0 && canvasX <= rect.width) {
+    // Scale from visual to logical coordinates
+    const scaleX = canvas.width / rect.width;
+    const logicalX = canvasX * scaleX;
+    basket.x = Math.max(
+      0,
+      Math.min(logicalX - basket.width / 2, canvas.width - basket.width),
+    );
+  }
+});
+
 export function startMiniGame() {
   canvas.style.display = "block";
   document.getElementById("sceneImage").style.display = "none";
@@ -32,16 +69,6 @@ export function startMiniGame() {
 
   gameLoop();
 }
-
-canvas.addEventListener("touchmove", (e) => {
-  const rect = canvas.getBoundingClientRect();
-  basket.x = e.touches[0].clientX - rect.left - basket.width / 2;
-});
-
-canvas.addEventListener("mousemove", (e) => {
-  const rect = canvas.getBoundingClientRect();
-  basket.x = e.clientX - rect.left - basket.width / 2;
-});
 
 function spawnObject() {
   const rand = Math.random();
@@ -90,7 +117,7 @@ function update() {
       obj.y + obj.size > basket.y &&
       obj.x < basket.x + basket.width &&
       obj.x + obj.size > basket.x &&
-      obj.y + 10 < basket.y + basket.height
+      obj.y < basket.y + basket.height
     ) {
       if (obj.type === "sausage") {
         score++;
