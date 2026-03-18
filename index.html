@@ -1,28 +1,27 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fr">
-<head>
-  <meta charset="UTF-8">
-  <title>Charming Elisa</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="static/style.css">
-  <link rel="shortcut icon" href="static/pictures/heart.png" type="image/x-icon">
-</head>
-<body>
-
-<div id="game">
-
-  <div id="scene">
-    <img id="sceneImage" src="" alt="">
-  </div>
-
-  <div id="dialogue"></div>
-
-  <div id="choices"></div>
-
-  <canvas id="gameCanvas"></canvas>
-
-</div>
-
-<script type="module" src="static/scripts/main.js"></script>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Charming Elisa</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="src/assets/styles/style.css" />
+    <link
+      rel="shortcut icon"
+      href="src/assets/images/heart.png"
+      type="image/x-icon"
+    />
+  </head>
+  <body>
+    <canvas id="gameCanvas"></canvas>
+    <div id="game">
+      <div id="scene">
+        <img id="sceneImage" src="" alt="" />
+      </div>
+      <div id="userInteractions">
+        <div id="dialogue"></div>
+        <div id="choices"></div>
+      </div>
+    </div>
+    <script type="module" src="src/scripts/main.js"></script>
+  </body>
 </html>

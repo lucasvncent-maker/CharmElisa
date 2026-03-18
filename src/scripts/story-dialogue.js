@@ -1,10 +1,8 @@
-import { startMiniGame } from "./minigame.js";
 import { shake } from "./effects.js";
-import { startFlappyGame } from "./flappyGame.js";
-
+import { startFlappyGame } from "./flappy-game.js";
+import { startMiniGame } from "./mini-game.js";
 
 let isTyping = false;
-let fullText = "";
 let currentAction = null;
 
 document.addEventListener("pointerdown", () => {
@@ -21,6 +19,7 @@ document.addEventListener("pointerdown", () => {
 });
 
 export function showScene(text, image, next = null, choices = []) {
+  const sceneImage = document.getElementById("sceneImage");
   sceneImage.style.display = "block";
   sceneImage.src = image;
 
@@ -31,8 +30,8 @@ export function showScene(text, image, next = null, choices = []) {
 
   typeText(text, () => {
     if (choices.length > 0) {
-      choices.forEach(choice => {
-        let btn = document.createElement("button");
+      choices.forEach((choice) => {
+        const btn = document.createElement("button");
         btn.innerText = choice.text;
         btn.onclick = choice.action;
         choicesEl.appendChild(btn);
@@ -45,7 +44,6 @@ export function showScene(text, image, next = null, choices = []) {
 
 function typeText(text, callback) {
   isTyping = true;
-  fullText = text;
 
   const dialogueEl = document.getElementById("dialogue");
   dialogueEl.innerText = "";
@@ -53,6 +51,7 @@ function typeText(text, callback) {
 
   function typing() {
     if (i < text.length) {
+      // Character by character reveal with slight delay for typing effect
       dialogueEl.innerHTML += text[i] === " " ? " " : text[i];
       i++;
       setTimeout(typing, 25);
@@ -66,88 +65,88 @@ function typeText(text, callback) {
 }
 
 export function startStory() {
-  showScene("...", "static/pictures/bg.jpg", step1);
-  // showScene("...", "static/pictures/bg.jpg", mission1);
+  showScene("...", "src/assets/images/background.jpg", step1);
 }
 
 function step1() {
-  showScene("Réveille-toi !!!", "static/pictures/bg.jpg", step2);
-
+  showScene("Réveille-toi !!!", "src/assets/images/background.jpg", step2);
   setTimeout(() => {
     shake(10, 400);
   }, 100);
 }
 
 function step2() {
-  showScene("Flemmard, arrête de dormir !!!", "static/pictures/bg.jpg", step3);
+  showScene(
+    "Flemmard, arrête de dormir !!!",
+    "src/assets/images/background.jpg",
+    step3,
+  );
 }
 
 function step3() {
   showScene(
     "Bonjour, jeune homme, je suis tonton Noël, ton fidèle conseiller.",
-    "static/pictures/tonton.png",
-    step4
+    "src/assets/images/uncle-noel.png",
+    step4,
   );
 }
 
 function step4() {
   showScene(
     "Aujourd'hui, tu vas devoir CONQUÉRIR LE COEUR D'ELISA !!!",
-    "static/pictures/tonton.png",
+    "src/assets/images/uncle-noel.png",
     null,
     [
-      { text: "Allons-y !", action: choix1 },
-      { text: "Pourquoi la conquérir ?", action: choix2 }
-    ]
+      { text: "Allons-y !", action: chooseYes },
+      { text: "Pourquoi la conquérir ?", action: chooseNo },
+    ],
   );
 }
 
-function choix1() {
+function chooseYes() {
   showScene(
     "Concentre-toi bien, c'est la femme LA PLUS PARFAITE DE L'UNIVERS.",
-    "static/pictures/tonton.png",
-    mission1
+    "src/assets/images/uncle-noel.png",
+    startFirstMission,
   );
 }
 
-function choix2() {
+function chooseNo() {
   showScene(
     "Parce que c'est la femme LA PLUS PARFAITE DE L'UNIVERS gros NIGAUD !!!",
-    "static/pictures/tonton.png",
-    mission1
+    "src/assets/images/uncle-noel.png",
+    startFirstMission,
   );
 }
 
-function mission1() {
+function startFirstMission() {
   showScene(
     "Ramasse uniquement ce qu'elle aime... fais attention !",
-    "static/pictures/tonton.png",
-    startMiniGame
+    "src/assets/images/uncle-noel.png",
+    startMiniGame,
   );
 }
 
 export function step5() {
   showScene(
     "OUAF OUAF !!",
-    "static/pictures/Fayou.jpeg",
-    step6
+    "src/assets/images/fayou.jpeg",
+    introduceFayouProblem,
   );
-  
 }
 
-function step6() {
+function introduceFayouProblem() {
   showScene(
     "Oh non, quelqu'un a renversé du chocolat de partout, il faut protéger Fayou !!",
-    "static/pictures/Fayou.jpeg",
-    mission2
+    "src/assets/images/fayou.jpeg",
+    startSecondMission,
   );
-  
 }
 
-function mission2() {
+function startSecondMission() {
   showScene(
     "Vite !! Sauve-le !!",
-    "static/pictures/Fayou.jpeg",
-    startFlappyGame
+    "src/assets/images/fayou.jpeg",
+    startFlappyGame,
   );
 }
