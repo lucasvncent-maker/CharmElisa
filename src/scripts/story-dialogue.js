@@ -66,7 +66,7 @@ function typeText(text, callback) {
 }
 
 export function startStory() {
-  showScene("...", "src/assets/pictures/background.jpg", startShootGame);
+  showScene("...", "src/assets/pictures/background.jpg", step1);
 }
 
 function step1() {
@@ -258,6 +258,199 @@ function startThirdMission() {
 export function step11() {
   showScene(
     "Bon, il est grand temps d'organiser votre rencontre, on va emmener Ares et Fayou avec nous.",
-    "src/assets/pictures/uncle-noel.png"
+    "src/assets/pictures/uncle-noel.png",
+    step12
   );
+}
+
+function step12_0() {
+  showScene(
+      "MAIS TU VIENS DE FAIRE N'IMPORTE QUOI !!! Reconcentre toi et retournes-y !!!",
+      "src/assets/pictures/uncle-hungry.jpg",
+      step12
+    );
+    setTimeout(() => {
+      shake(30, 600);
+    }, 20);
+}
+
+function step12() {
+  showScene(
+      "Allez mon gars, elle arrive, prépare toi à la draguer, fais très attention à ce que tu dis et ce qu tu fais, t'as pas intérêt à tout gâcher maintenant !",
+      "src/assets/pictures/uncle-noel.png",
+      step13
+    );
+}
+
+
+function step13() {
+  showScene(
+      "Oh, salut toi !",
+      "src/assets/pictures/elisa-hoody.jpeg",
+      null,
+      [
+        { text: "Donner les saucissons", action: step14 },
+        { text: "Lui cracher dessus", action: step12_0 },
+      ],
+    );
+}
+
+
+function step14() {
+  showScene(
+      "",
+      "src/assets/pictures/elisa-smile.jpeg",
+      step15
+    );
+}
+
+function step15() {
+  showScene(
+      "C'est bien mon p'tit gars, elle sourit, c'est bon signe !!! Propose-lui un date maintenant !!",
+      "src/assets/pictures/uncle-noel.png",
+      step16
+    );
+}
+
+function step16() {
+  showScene(
+      "",
+      "src/assets/pictures/elisa-smile.jpeg",
+      null, 
+      [
+        { text: "Date au ski pour flexer ton talent", action: step16_1 },
+        { text: "Faire des crepes", action: step17 },
+        { text: "Date manif anti avortement", action: step12_0 },
+      ],
+    );
+}
+
+function step16_1() {
+  showScene(
+      "Elle a pas l'air d'être très impressionnée par ton niveau d'andouille...",
+      "src/assets/pictures/elisa-ski.jpeg",
+      step12_0
+    );
+}
+
+function step17() {
+  showScene(
+      "",
+      "src/assets/pictures/elisa-crepes.jpeg",
+      step18
+    );
+}
+
+function step18() {
+  showScene(
+      "Très bonne idée ça mon poulain !!! Les plus belles histoires d'amour commencent toujours avec des crêpes !!! Allez, tu y es presque !!!",
+      "src/assets/pictures/uncle-noel.png",
+      step20
+    );
+}
+
+function step20() {
+  showScene(
+      "",
+      "src/assets/pictures/elisa-smile.jpeg",
+      null, 
+      [
+        { text: "Lui dire qu'elle a un beau sourire", action: step20_1 },
+        { text: "L'embrasser", action: step20_2 },
+        { text: "Lui dire qu'elle a des genoux magnifiques", action: step20_3 },
+        { text: "Se baver dessus en regardant ses biceps", action: step21 },
+        { text: "Sortir le paff", action: step12_0 },
+      ],
+    );
+}
+
+function step20_1() {
+  showScene(
+      "Très bonne idée ça mon poulain !!! Surtout si c'est pour ressembler a tous les autres BLAIREAUX qui la draguent h24, sois ORIGINAL UN PEU !!!!",
+      "src/assets/pictures/uncle-noel.png",
+      step12_0
+    );
+  setTimeout(() => {
+    shake(30, 600);
+  }, 80);
+}
+
+function step20_2() {
+  showScene(
+      "Oula mon gars, je t'ai pas élevé comme ça, on embrasse pas quelqu'un comme ça !!!",
+      "src/assets/pictures/uncle-hungry.jpg",
+      step12_0
+    );
+}
+
+function step20_3() {
+  showScene(
+      "BeEeEEEEeEeURK c'est quoi ces genoux HORRIBLES ???",
+      "src/assets/pictures/uncle-hungry.jpg",
+      step12_0
+    );
+}
+
+function step21() {
+  showScene(
+      "Elle a l'air d'aimer ton regard sur ses gros bras...",
+      "src/assets/pictures/elisa-biceps.jpeg",
+      step22
+  );
+}
+
+function step22() {
+  showScene(
+      "Fiston, je crois bien que tu as réussi... Je suis fier de toi, maintenant, tu peux vivre ton histoire avec elle sans moi :)",
+      "src/assets/pictures/uncle-noel.png",
+      step23
+    );
+}
+
+function step23() {
+  showScene(
+      "F  I  N",
+      "src/assets/pictures/elisa-mirror.jpeg",
+      step24
+    );
+}
+
+function step24() {
+  showScene(
+      "Joyeux anniversaire, Elisa <3",
+      "src/assets/pictures/elisa-tshirt.jpeg",
+      step25
+    );
+}
+
+function step25() {
+  showScene(
+      "",
+      "src/assets/pictures/elisa-2smiles.jpeg",
+      step26
+    );
+}
+
+function step26() {
+  showScene(
+      "20/03/2026 (merci Ethan pour l'aide)",
+      "src/assets/pictures/elisa-hugs.png",
+      step27
+    );
+}
+
+function step27() {
+  showScene(
+      "T'es trop belle <3",
+      "src/assets/pictures/elisa-cute.jpeg",
+      end
+    );
+}
+
+function end() {
+  showScene(
+      "",
+      "",
+      null
+    );
 }
