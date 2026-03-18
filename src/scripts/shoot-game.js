@@ -49,24 +49,7 @@ document.addEventListener("mousemove", (e) => {
 
 document.addEventListener("touchmove", (e) => {
   if (!running) return;
-  const rect = canvas.getBoundingClientRect();
-  if (rect.width === 0) return;
-
-  const scaleX = canvas.width / rect.width;
-  const scaleY = canvas.height / rect.height;
-
-  const canvasX = e.touches[0].clientX - rect.left;
-  const canvasY = e.touches[0].clientY - rect.top;
-
-  if (
-    canvasX >= 0 &&
-    canvasX <= rect.width &&
-    canvasY >= 0 &&
-    canvasY <= rect.height
-  ) {
-    cursor.x = canvasX * scaleX;
-    cursor.y = canvasY * scaleY;
-  }
+  shot();
 });
 
 document.addEventListener("pointerdown", () => {
