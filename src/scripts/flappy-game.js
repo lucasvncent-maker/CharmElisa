@@ -34,8 +34,8 @@ export function startFlappyGame() {
     x: 80,
     y: 200,
     velocity: 0,
-    gravity: 0.5,
-    lift: -8,
+    gravity: 0.4,
+    lift: -6,
     size: 60,
   };
 
@@ -74,11 +74,11 @@ function update() {
   bird.y += bird.velocity;
 
   if (getMaxPipeX(pipes) < canvas.width * 0.2) {
-    if (Math.random() < 0.06) spawnPipe();
+    if (Math.random() < 0.04) spawnPipe();
   }
 
   pipes.forEach((pipe, index) => {
-    pipe.x -= 7;
+    pipe.x -= 5;
 
     // AABB collision detection: check if bird overlaps pipe boundaries
     if (
