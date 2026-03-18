@@ -7,6 +7,7 @@ let windParticles = [];
 
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
+const scoreToReach = 1;
 
 canvas.width = 350;
 canvas.height = 500;
@@ -116,7 +117,7 @@ function update() {
     }
   });
 
-  if (score >= 20) winGame();
+  if (score >= scoreToReach) winGame();
 }
 
 function draw() {
