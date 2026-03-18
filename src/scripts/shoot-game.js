@@ -9,7 +9,6 @@ canvas.height = 500;
 
 let enemies = [];
 let friends = [];
-let bullets = [];
 let particles = [];
 let explosionParticles = [];
 let grass = [];
@@ -54,6 +53,7 @@ function updateCursor(clientX, clientY) {
 
 // Track mouse/touch position globally with proper scaling
 document.addEventListener("mousemove", (e) => {
+  if (isTouchDevice) return;
   if (!running) return;
   updateCursor(e.clientX, e.clientY);
 });
@@ -102,11 +102,36 @@ function shot() {
     life: 10,
   });
 
-  bullets.push({
-    x: cursor.x,
-    y: cursor.y,
-    radius: 5,
-  });
+  // collision avec ennemis
+  for (let i = enemies.length - 1; i >= 0; i--) {
+    const e = enemies[i];
+
+    if (
+      cursor.x > e.x - e.size &&
+      cursor.x < e.x + e.size &&
+      cursor.y > e.y - e.size &&
+      cursor.y < e.y + e.size
+    ) {
+      enemies.splice(i, 1);
+      score++;
+    }
+  }
+
+  // collision avec alliés
+  for (let i = friends.length - 1; i >= 0; i--) {
+    const f = friends[i];
+
+    if (
+      cursor.x > f.x - f.size &&
+      cursor.x < f.x + f.size &&
+      cursor.y > f.y - f.size &&
+      cursor.y < f.y + f.size
+    ) {
+      friends.splice(i, 1);
+      score = 0;
+    }
+  }
+
 }
 
 function getSpawnLocation() {
@@ -211,28 +236,6 @@ function update() {
     }
 
     return true;
-  });
-
-  // Check bullet-enemy and bullet-friends collisions
-  bullets = bullets.filter((b) => {
-    for (let i = enemies.length - 1; i >= 0; i--) {
-      const e = enemies[i];
-      const dist = getDistance(e.x, e.y, b.x, b.y);
-
-      if (dist < e.size) {
-        enemies.splice(i, 1);
-      }
-    }
-    
-    for (let i = friends.length - 1; i >= 0; i--) {
-      const f = friends[i];
-      const dist = getDistance(f.x, f.y, b.x, b.y);
-
-      if (dist < f.size) {
-        friends.splice(i, 1);
-        score=0;
-      }
-    }
   });
 
   // Update friends and check collision with horse
@@ -418,7 +421,6 @@ export function startShootGame() {
   // Reset game state
   enemies = [];
   friends = [];
-  bullets = [];
   particles = [];
   grass = [];
   shotEffects = [];
