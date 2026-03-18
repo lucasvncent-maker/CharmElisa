@@ -11,7 +11,7 @@ const ctx = canvas.getContext("2d");
 canvas.width = 350;
 canvas.height = 500;
 
-canvas.addEventListener("pointerdown", () => {
+document.addEventListener("pointerdown", () => {
   if (!running) return;
   bird.velocity = bird.lift;
 });
