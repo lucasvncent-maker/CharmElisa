@@ -7,7 +7,7 @@ let windParticles = [];
 
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
-const scoreToReach = 20;
+const scoreToReach = 15;
 
 canvas.width = 350;
 canvas.height = 500;
